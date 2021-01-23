@@ -1,0 +1,46 @@
+{
+    "name": "nextsms/php-client",
+    "description": "NextSMS PHP SDK",
+    "keywords": [
+        "api",
+        "nextsms",
+        "bulk sms"
+    ],
+    "homepage": "https://github.com/nextsms/php-client",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alpha Olomi",
+            "email": "alphaolomi@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.0|^7.0",
+        "phpseclib/phpseclib": "^2.0",
+        "ext-json": "*",
+        "ext-openssl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NextSMS\\SDK\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NextSMS\\SDK\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
