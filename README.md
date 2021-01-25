@@ -6,17 +6,16 @@
 ### Quick Examples
 
 ```php
-
 require 'vendor/autoload.php';
 
 use NextSMS\SDK\Client;
 
 // Intiate with credentials
 $client = new Client([
-            'api_key' => 'YOUR_API_KEY',
-            'public_key' => 'PUBLIC_KEY',
-            'client_options' => [],
-        ]);
+    'username' => 'YOUR_USERNAME',
+    'password' => 'YOUR_PASSWORD',
+    'enviroment' => 'testing', // or production
+]);
 
 // Setup the transaction
 $data = [
@@ -30,7 +29,6 @@ $result = $client->send_single($data);
 
 // Print results
 var_dump($result);
-
 ```
 
 <!-- For more example check [client-demo-example](https://github.com/NextSMS/php-client/tree/develop/examples). -->

@@ -52,16 +52,17 @@ class NextSMS
      * @param client
      * @return void
      */
-     public function  __constructor($options,$client) {
+    public function  __constructor($options, $client)
+    {
         $this->key = base64_encode("{$options['username']}:{$options['password']}");
         $this->enviroment = $options['enviroment'];
         $this->client = ($client instanceof Client) ? $client : new Client([
             'headers' => [
                 'Accept' => 'application/json',
                 'http_errors' => false,
-                    'Authorization'=> `Basic ${this.key}`,
-                    'Content-Type'=> 'application/json'
-                ]
+                'Authorization' => `Basic ${this . key}`,
+                'Content-Type' => 'application/json'
+            ]
         ]);
         $this->base_url = '';
     }
@@ -80,7 +81,8 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5e466440-829b-4b56-be32-b681e4f81227}
      * @returns {Promise}
      */
-    public function  single_destination($data){
+    public function  single_destination($data)
+    {
         $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/test/text/single", [
             'json' => $data,
         ]);
@@ -101,13 +103,13 @@ class NextSMS
      * * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#2936eed4-6027-45e7-92c9-fe1cd7df140b}
      * @returns {Promise}
      */
-    public function  multiple_destinations($data){
+    public function  multiple_destinations($data)
+    {
 
         $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/test/text/multi", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
     }
     /**
      *
@@ -125,12 +127,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#b13825ab-8b49-45f5-a4cd-fb7d21aa975a }
      * @returns {Promise}
      */
-    public function   multiple_messages_to_multiple_destinations_example1($data){
+    public function   multiple_messages_to_multiple_destinations_example1($data)
+    {
         $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/multi", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
     }
 
     /**
@@ -156,12 +158,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6916415a-4645-460d-bb3f-a6d6fbd60e4a}
      * @returns {Promise}
      */
-    public function  multiple_messages_to_multiple_destinations($data){
- $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/multi", [
+    public function  multiple_messages_to_multiple_destinations($data)
+    {
+        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/multi", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
     }
 
     /**
@@ -194,7 +196,8 @@ class NextSMS
      * @returns {Promise}
      *
      */
-    public function  schedule_sms($data){
+    public function  schedule_sms($data)
+    {
 
         $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/single", [
             'json' => $data,
@@ -211,14 +214,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5fc5b186-c4dc-4de0-9d0f-baee93d53c7d}
      * @returns {Promise}
      */
-    public function  get_delivery_reports(){
+    public function  get_delivery_reports()
+    {
         $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
-
-
     }
 
     /**
@@ -231,12 +232,10 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6402ce4e-d0d4-44ac-8606-a9d12a900974}
      * @returns {Promise}
      */
-    public function   get_delivery_reports_with_message_id(int $messageId){
-  $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?messageId={$messageId}", [
-            'json' => $data,
-        ]);
+    public function   get_delivery_reports_with_message_id(int $messageId)
+    {
+        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?messageId={$messageId}");
         return json_decode($response->getBody(), true);
-
     }
 
     /**
@@ -248,13 +247,10 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#46fc5c9c-0cd4-4356-8cab-1e326e54940a}
      * @returns {Promise}
      */
-    public function   get_delivery_reports_with_specific_date_range(string $sentSince: , string $sentUntil){
-  $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?sentSince{$sentSince}=&sentUntil={$sentUntil}", [
-            'json' => $data,
-        ]);
+    public function   get_delivery_reports_with_specific_date_range(string $sentSince, string $sentUntil)
+    {
+        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?sentSince{$sentSince}=&sentUntil={$sentUntil}");
         return json_decode($response->getBody(), true);
-
-
     }
 
     // - Sent Sms Logs
@@ -269,13 +265,10 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#493fa3f2-c96d-44cc-892d-b6e166dd0683}
      * @returns {Promise}
      */
-    public function  get_all_sent_sms_logs(string $from, int $limit , int $offset ){
-    $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}", [
-            'json' => $data,
-        ]);
+    public function  get_all_sent_sms_logs(string $from, int $limit, int $offset)
+    {
+        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}");
         return json_decode($response->getBody(), true);
-
-
     }
 
     /**
@@ -296,13 +289,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#493fa3f2-c96d-44cc-892d-b6e166dd0683}
      * @returns {Promise}
      */
-    public function  get_all_sent_sms(strin $from, string $to, string $sentSince, string $sentUntil){
-  $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&to={$to}&sentSince={$sentSince}&sentUntil={$sentUntil}", [
+    public function  get_all_sent_sms(string $from, string $to, string $sentSince, string $sentUntil)
+    {
+        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&to={$to}&sentSince={$sentSince}&sentUntil={$sentUntil}", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
-
     }
 
     /**
@@ -323,12 +315,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#4d5c6a0a-9d16-45e2-ab8e-74211258ca00}
      * @returns {Promise}
      */
-    public function  register_sub_customer($data){
-  $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/create", [
+    public function  register_sub_customer($data)
+    {
+        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/create", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
     }
 
     /**
@@ -343,14 +335,12 @@ class NextSMS
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#d3bd992c-08a8-400d-9b52-41fe6afecf44 }
      * @returns {Promise}
      */
-    public function recharge_customer($data){
-  $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/recharge", [
+    public function recharge_customer($data)
+    {
+        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/recharge", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
-
-
     }
 
     /**
@@ -368,14 +358,12 @@ class NextSMS
      *  @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#570c9c63-4dc5-4ef5-aba5-1e4ba6d6d288}
      *  @returns {Promise}
      */
-    public function deduct_customer($data){
-  $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/deduct", [
+    public function deduct_customer($data)
+    {
+        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/deduct", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
-
-
     }
 
     /**
@@ -386,14 +374,11 @@ class NextSMS
      *
      * @returns {Promise}
      */
-    public function get_sms_balance(){
-  $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/balance", [
+    public function get_sms_balance()
+    {
+        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/balance", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
-
-
-
     }
-
 }
