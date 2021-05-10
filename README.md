@@ -1,4 +1,9 @@
 # NextSMS for PHP
+[![Tests](https://github.com/nextsms/php-client/actions/workflows/php.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php.yml)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+
+
+## For more see [documentation](./docs/index.md).
 
 ## Usage
 
@@ -30,7 +35,7 @@ $result = $client->singleDestination($data);
 var_dump($result);
 ```
 
-<!-- For more example check [client-demo-example](https://github.com/NextSMS/php-client/tree/develop/examples). -->
+
 
 ### Testing
 
