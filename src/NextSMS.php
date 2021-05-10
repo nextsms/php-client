@@ -2,118 +2,148 @@
 
 namespace NextSMS\SDK;
 
-
+use Exception;
+use InvalidArgumentException;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+
 
 /**
+
  * @package NextSMS\SDK
  * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#intro}
  *
  * @version 0.1.0
- * @author Alpha Olomi
+ * @author Alpha Olomi <alphaolomi@gmail.com>
  */
 class NextSMS
 {
 
     /**
-     * enviroment
+     * @var array|null
      */
-    private string $enviroment; // 'testing' | 'production';
+    protected ?array $options;
+
 
     /**
-     * key
+     * @var Client|null
      */
-    private string $key;
+    protected ?client $httpClient;
 
     /**
-     * header
+     * NextSMS constructor.
+     * @param array|null $options
+     * @param Client|null $httpClient
+     * @throws InvalidArgumentException
      */
-    private mixed $header;
-
-    /**
-     * root
-     */
-    private $ROOT_URL = 'https://messaging-service.co.tz/';
-
-    /**
-     * base url
-     */
-    private string $base_url;
-
-    /**
-     * HTTP client
-     */
-    private  $client;
-
-    /**
-     * 'testing' | 'production'
-     * @param options mixed
-     * @param client
-     * @return void
-     */
-    public function  __constructor($options, $client)
+    public function __construct(?array $options = ['environment' => 'testing'], ?Client $httpClient = null)
     {
-        $this->key = base64_encode("{$options['username']}:{$options['password']}");
-        $this->enviroment = $options['enviroment'];
-        $this->client = ($client instanceof Client) ? $client : new Client([
+        if (!array_key_exists('username', $options)) {
+            throw new InvalidArgumentException("Username is required.");
+        }
+        if (!array_key_exists('password', $options)) {
+            throw new InvalidArgumentException("Password is required.");
+        }
+
+        $options['environment'] =  ($options['environment']) ?? 'testing';
+        $this->options = $options;
+        $this->httpClient = $this->makeClient($options, $httpClient);
+    }
+
+
+    protected function makeClient(?array $options, ?Client $client = null): Client
+    {
+        return ($client instanceof Client) ? $client : new Client([
+            'base_uri' => 'https://messaging-service.co.tz/api/',
             'headers' => [
                 'Accept' => 'application/json',
-                'http_errors' => false,
-                'Authorization' => `Basic ${this . key}`,
+                'Authorization' => "Basic " . $this->makeToken($options['username'],$options['password']),
                 'Content-Type' => 'application/json'
-            ]
+            ],
         ]);
-        $this->base_url = '';
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     * @return string
+     */
+    protected function makeToken(string $username, string $password): string
+    {
+        return base64_encode("{$username}:{$password}");
     }
 
     /**
      *
-     * Send Sms to Single destination
-     *
-     *
-     * {
-     *  from = 'NEXTSMS',
-     *  to = '255716718040',
-     *  text = 'Your message'
-     * }
+     * Send SMS to Single destination/recipient
+     * Required fields
+     * [
+     *  'from' => 'NEXTSMS',
+     *  'to' => '255716718040',
+     *  'text' => 'Your message'
+     * ]
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5e466440-829b-4b56-be32-b681e4f81227}
-     * @returns {Promise}
+     * @returns mixed
+     * @throws InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  single_destination($data)
+    public function  singleDestination(array $data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/test/text/single", [
-            'json' => $data,
-        ]);
+        if (!array_key_exists('to', $data)) {
+            throw new InvalidArgumentException("Recipient Number is required.");
+        }
+        if (!array_key_exists('text', $data)) {
+            throw new InvalidArgumentException("Text Message is required.");
+        }
+        $url  = "sms/v1/text/single";
+        if ($this->options['environment']?? null) {
+            $url = "sms/v1/test/text/single";
+        }
+        $response = $this->httpClient->request("POST", $url, ['json' => $data]);
         return json_decode($response->getBody(), true);
     }
 
     /**
      *
      *  Multiple destinations
-     * For sending the single messages to multiple phone numbers,
+     *  For sending the single messages to multiple phone numbers,
      *
-     * {
-     *  from = 'NEXTSMS',
-     *  to = ['255655912841', '255716718040'],
-     *  text = 'Your message'
-     * }
      *
-     * * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#2936eed4-6027-45e7-92c9-fe1cd7df140b}
-     * @returns {Promise}
+     * [
+     *  "from" => "NEXTSMS",
+     *  "to" => ['255655912841', '255716718040'],
+     *  "text" => "Your message"
+     * ]
+     *
+     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#2936eed4-6027-45e7-92c9-fe1cd7df140b}
+     * @returns mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  multiple_destinations($data)
+    public function multipleDestinations(array $data)
     {
+        if (!array_key_exists('from', $data)) {
+            throw new InvalidArgumentException("From field is required.");
+        }
+        if (!array_key_exists('text', $data)) {
+            throw new InvalidArgumentException("Message text is required.");
+        }
+        if (!array_key_exists('to', $data)) {
+            throw new InvalidArgumentException("Recipient Numbers are required.");
+        }
+        $url = "sms/v1/text/multi";
+        if ($this->options['environment']) {
+            $url = "sms/v1/test/text/multi";
+        }
 
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/test/text/multi", [
+        $response = $this->httpClient->request("POST", $url, [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
     }
+
     /**
      *
-     *   Multiple messages to Multiple destinations (Format 1)
+     *   Multiple messages to Multiple different destinations (Format 1)
      *
      * {
      *     messages = [
@@ -121,15 +151,19 @@ class NextSMS
      *         { from: 'NEXTSMS', to: '255655912841', text: 'Your other message' },
      *     ],
      * }
-     * @param data
+     * @param array $data
      *
      *
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#b13825ab-8b49-45f5-a4cd-fb7d21aa975a }
-     * @returns {Promise}
      */
-    public function   multiple_messages_to_multiple_destinations_example1($data)
+    public function   multipleMessagesToMultipleDestinations(array $data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/multi", [
+        if (!array_key_exists('messages', $data)) {
+            throw new InvalidArgumentException("Messages are required.");
+        }
+        $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
@@ -156,11 +190,32 @@ class NextSMS
      *
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6916415a-4645-460d-bb3f-a6d6fbd60e4a}
-     * @returns {Promise}
+     * @returns mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  multiple_messages_to_multiple_destinations($data)
+    public function  multipleMessagesToMultipleDifferentDestinations($data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/multi", [
+        if (!array_key_exists('messages', $data)) {
+            throw new InvalidArgumentException("Messages are required.");
+        }
+        if (count($data['messages']) < 0) {
+            throw new InvalidArgumentException("Invalid Messages. Expected atleast one message");
+        }
+        foreach ($data['messages'] as $key => $message) {
+            if (!array_key_exists('from', $data)) {
+                throw new InvalidArgumentException("From field is required. On message #" . $key);
+            }
+            if (!array_key_exists('text', $data)) {
+                throw new InvalidArgumentException("Message text is required. On message #" . $key);
+            }
+            if (!array_key_exists('to', $data)) {
+                throw new InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
+            }
+        }
+
+
+
+        $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
@@ -173,8 +228,8 @@ class NextSMS
      *   from - your Sender ID
      *   to - recipient phone number with the format begin with 255
      *   text - your text message
-     *   date - date of the day to which you want to send your sms, format of Year-month-date exapmle:2020-10-01
-     *   time - time of the day to which you want to send your sms, 24 hours format exapmle:12:00
+     *   date - date of the day to which you want to send your sms, format of Year-month-date example:2020-10-01
+     *   time - time of the day to which you want to send your sms, 24 hours format example:12:00
      *
      *   Optional parameters to the schedule sms
      *   repeat - you can add this parameter when you want your sms to be repeated. This must be with these values in order to work: hourly, daily, weekly or monthly
@@ -182,125 +237,169 @@ class NextSMS
      *   end_date - this parameter defines the date from this your sms can end sending, format of Year-month-date exapmle:2021-01-01.
      *
      *
-     *   {
+     *   [
      *     from: 'SENDER',
      *     to: '255716718040',
      *     text: 'Your message',
      *     date: '2020-10-01',
      *     time: '12:00',
-     *   }
+     *   ]
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#59cc2941-482b-45ab-9721-a7abffc83bba}
      *
-     * @param data
-     *
-     * @returns {Promise}
-     *
+     * @param array $data
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  schedule_sms($data)
+    public function  scheduleSms(array $data)
     {
+        if (!array_key_exists('messages', $data)) {
+            throw new InvalidArgumentException("Messages are required.");
+        }
+        if (!array_key_exists('to', $data)) {
+            throw new InvalidArgumentException("Recipient is required.");
+        }
+        if (!array_key_exists('text', $data)) {
+            throw new InvalidArgumentException("Message is required.");
+        }
+        if (!array_key_exists('date', $data)) {
+            throw new InvalidArgumentException("Schedule date is required.");
+        }
+        if (!array_key_exists('time', $data)) {
+            throw new InvalidArgumentException("Schedule time is required.");
+        }
 
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/text/single", [
+        $response = $this->httpClient->request("POST", "sms/v1/text/single", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
     }
 
-    // - Sms Delivery Reports
 
     /**
      *
-     * GET Get delivery reports with messageId
+     *  Get delivery reports with messageId
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5fc5b186-c4dc-4de0-9d0f-baee93d53c7d}
-     * @returns {Promise}
+     * @returns mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  get_delivery_reports()
+    public function  getDeliveryReports()
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports", [
-            'json' => $data,
-        ]);
+        $response = $this->httpClient->request("GET", "sms/v1/reports");
         return json_decode($response->getBody(), true);
     }
 
     /**
      * Get delivery reports with messageId
-     *
-     *
-     * @param int messageId
-     *
-     *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6402ce4e-d0d4-44ac-8606-a9d12a900974}
-     * @returns {Promise}
+     *
+     *
+     * @param int $messageId
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function   get_delivery_reports_with_message_id(int $messageId)
+    public function   getDeliveryReportsWithMessageId(int $messageId)
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?messageId={$messageId}");
+        if ($messageId < 0) {
+            throw new InvalidArgumentException("Invalid Message ID. Message ID can not be negative.");
+        }
+        $response = $this->httpClient->request("GET", "sms/v1/reports?messageId={$messageId}");
         return json_decode($response->getBody(), true);
     }
 
     /**
      *
      * GET Get delivery reports with specific date range
-     * @param sentSince
-     * @param sentUntil
-     *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#46fc5c9c-0cd4-4356-8cab-1e326e54940a}
-     * @returns {Promise}
+     *
+     * [
+     *  'sentSince' => '',
+     *  'sentUntil' => '',
+     * ]
+     * @param array $data
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function   get_delivery_reports_with_specific_date_range(string $sentSince, string $sentUntil)
+    public function   getDeliveryReportsWithSpecificDateRange(array $data)
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/reports?sentSince{$sentSince}=&sentUntil={$sentUntil}");
+        if (!array_key_exists('sentSince', $data)) {
+            throw new InvalidArgumentException("Sent since date is required.");
+        }
+        if (!array_key_exists('sentUntil', $data)) {
+            throw new InvalidArgumentException("Sent until date is required.");
+        }
+
+        $response = $this->httpClient->get("sms/v1/reports?sentSince{$data['sentSince']}=&sentUntil={$data['sentUntil']}");
         return json_decode($response->getBody(), true);
     }
 
-    // - Sent Sms Logs
 
     /**
-     *
-     * GET Get all sent SMS logs
-     * @param from
-     * @param limit
-     * @param offset
+     * Get all sent SMS logs
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#493fa3f2-c96d-44cc-892d-b6e166dd0683}
-     * @returns {Promise}
+     * [
+     *      'from' =>'2020-02-01',
+     *      'limit' =>'10',
+     *      'offset' =>'10'
+     *  ]
+     * @param array $data
+     *
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  get_all_sent_sms_logs(string $from, int $limit, int $offset)
+    public function  getAllSentSmsLogs(array $data)
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}");
+        if (!array_key_exists('from', $data)) {
+            throw new InvalidArgumentException("From field is required.");
+        }
+        if (!array_key_exists('limit', $data)) {
+            throw new InvalidArgumentException("Limit count is required.");
+        }
+        if (!array_key_exists('offset', $data)) {
+            throw new InvalidArgumentException("Offset count is required.");
+        }
+        $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&limit={$data['limit']}&offset={$data['offset']}");
         return json_decode($response->getBody(), true);
     }
 
     /**
-     *  GET Get all sent SMS logs with optional parameter
-     *
-     *
-     * from=NEXTSMS
-     * to=255716718040
-     * sentSince=2020-02-01
-     * sentUntil=2020-02-20
-     *
-     * @param from  string
-     * @param to string
-     * @param sentSince string
-     * @param sentUntil string
-     *
-     *
+     * Get all sent SMS logs with optional parameter
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#493fa3f2-c96d-44cc-892d-b6e166dd0683}
-     * @returns {Promise}
+     *
+     * [
+     *  'from' => 'NEXTSMS',
+     *  'to' => '255716718040',
+     *  'sentSince' => '2020-02-01',
+     *  'sentUntil' => '2020-02-20'
+     * ]
+     * @param array $data
+     *
+     * @returns mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  get_all_sent_sms(string $from, string $to, string $sentSince, string $sentUntil)
+    public function  getAllSentSms(array $data)
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/logs?from={$from}&to={$to}&sentSince={$sentSince}&sentUntil={$sentUntil}", [
-            'json' => $data,
-        ]);
+        if (!array_key_exists('from', $data)) {
+            throw new InvalidArgumentException("From field is required.");
+        }
+        if (!array_key_exists('to', $data)) {
+            throw new InvalidArgumentException("To  is required.");
+        }
+        if (!array_key_exists('sentSince', $data)) {
+            throw new InvalidArgumentException("Sent since date is required.");
+        }
+        if (!array_key_exists('sentUntil', $data)) {
+            throw new InvalidArgumentException("Sent until date is required.");
+        }
+
+        $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&to={$data['to']}&sentSince={$data['sentSince']}&sentUntil={$data['sentUntil']}");
         return json_decode($response->getBody(), true);
     }
 
     /**
-     *
-     * - Sub Customer
-     *   - POST Register Sub Customer
+     * Register Sub Customer
+     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#4d5c6a0a-9d16-45e2-ab8e-74211258ca00}
      * {
      *     first_name = 'Api',
      *     last_name = 'Customer',
@@ -311,33 +410,43 @@ class NextSMS
      *     sms_price = 20,
      * }
      *
-     * @param data sub_customer
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#4d5c6a0a-9d16-45e2-ab8e-74211258ca00}
-     * @returns {Promise}
+     * @param array $data sub_customer
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  register_sub_customer($data)
+    public function  registerSubCustomer(array $data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/create", [
+
+
+        $response = $this->httpClient->request("POST", "sms/v1/sub_customer/create", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
     }
 
     /**
-     *  Recharge customer
-     *
-     *  {
-     *      email = 'example@email.com',
-     *      smscount = 5000
-     *  }
-     *
-     * @param data recharge_customer
+     * Recharge customer
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#d3bd992c-08a8-400d-9b52-41fe6afecf44 }
-     * @returns {Promise}
+     *
+     *  [
+     *      'email' => 'example@email.com',
+     *      'smscount' => 5000
+     *  ]
+     *
+     * @param array $data
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function recharge_customer($data)
+    public function rechargeCustomer(array $data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/recharge", [
+        if (!array_key_exists('email', $data)) {
+            throw new InvalidArgumentException("Email is required.");
+        }
+        if (!array_key_exists('smscount', $data)) {
+            throw new InvalidArgumentException("SMS count is required.");
+        }
+
+        $response = $this->httpClient->request("POST", "sms/v1/sub_customer/recharge", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
@@ -348,37 +457,41 @@ class NextSMS
      *  To deduct your customer you are required to specify
      *  your customer email account which has been registered with the customer
      *  and smscount number of sms you want to deduct from a customer account.
+     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#570c9c63-4dc5-4ef5-aba5-1e4ba6d6d288}
      *
-     *  {
-     *      email = 'example@email.com',
-     *      smscount = 2000
-     *  }
+     *  [
+     *    'email' => 'example@email.com',
+     *    'smscount' => 2000
+     *  ]
      *
-     *  @param data deduct_customer
-     *  @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#570c9c63-4dc5-4ef5-aba5-1e4ba6d6d288}
-     *  @returns {Promise}
+     * @param array $data
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function deduct_customer($data)
+    public function deductCustomer(array $data)
     {
-        $response = $this->client->post("https://messaging-service.co.tz/api/sms/v1/sub_customer/deduct", [
+        if (!array_key_exists('email', $data)) {
+            throw new InvalidArgumentException("Email is required.");
+        }
+        if (!array_key_exists('smscount', $data)) {
+            throw new InvalidArgumentException("SMS count is required.");
+        }
+        $response = $this->httpClient->request("POST", "sms/v1/sub_customer/deduct", [
             'json' => $data,
         ]);
         return json_decode($response->getBody(), true);
     }
 
     /**
-     *
      * Get sms balance
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#570c9c63-4dc5-4ef5-aba5-1e4ba6d6d288}
      *
-     * @returns {Promise}
+     * @returns mixed
      */
-    public function get_sms_balance()
+    public function getSmsBalance()
     {
-        $response = $this->client->get("https://messaging-service.co.tz/api/sms/v1/balance", [
-            'json' => $data,
-        ]);
+        $response = $this->httpClient->request("GET", "sms/v1/balance");
         return json_decode($response->getBody(), true);
     }
 }

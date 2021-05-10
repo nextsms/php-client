@@ -1,25 +1,10 @@
 language: php
 
 php:
-    # - 7.1
-    # - 7.2
-    - 7.3
-
-# env:
-#   matrix:
-#     - COMPOSER_FLAGS="--prefer-lowest"
-#     - COMPOSER_FLAGS=""
-
-# cache:
-    # directories:
-        # - $HOME/.composer/cache
+    - 7.4
 
 before_script:
     - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-    - cd docs && npm install && cd ..
 
 script:
-    - ./vendor/bin/phpunit --coverage-clover coverage.xml
-
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
+    - ./vendor/bin/phpunit

@@ -1,6 +1,5 @@
 # NextSMS for PHP
 
-
 ## Usage
 
 ### Quick Examples
@@ -25,7 +24,7 @@ $data = [
 ];
 
 // Execute
-$result = $client->send_single($data);
+$result = $client->singleDestination($data);
 
 // Print results
 var_dump($result);
