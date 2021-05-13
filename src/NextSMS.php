@@ -35,7 +35,7 @@ class NextSMS
      * @param Client|null $httpClient
      * @throws InvalidArgumentException
      */
-    public function __construct(?array $options = ['environment' => 'testing'], ?Client $httpClient = null)
+    public function __construct(?array $options = [], ?Client $httpClient = null)
     {
         if (!array_key_exists('username', $options)) {
             throw new InvalidArgumentException("Username is required.");
@@ -44,7 +44,9 @@ class NextSMS
             throw new InvalidArgumentException("Password is required.");
         }
 
-        $options['environment'] =  ($options['environment']) ?? 'testing';
+        if (!array_key_exists('environment', $options)) {
+            $options['environment'] = 'testing';
+        }
         $this->options = $options;
         $this->httpClient = $this->makeClient($options, $httpClient);
     }
