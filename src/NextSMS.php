@@ -96,7 +96,7 @@ class NextSMS
             throw new InvalidArgumentException("Text Message is required.");
         }
         $url  = "sms/v1/text/single";
-        if ($this->options['environment']?? null) {
+        if ($this->options['environment'] == 'testing') {
             $url = "sms/v1/test/text/single";
         }
         $response = $this->httpClient->request("POST", $url, ['json' => $data]);
@@ -131,7 +131,7 @@ class NextSMS
             throw new InvalidArgumentException("Recipient Numbers are required.");
         }
         $url = "sms/v1/text/multi";
-        if ($this->options['environment']) {
+        if ($this->options['environment'] == 'testing') {
             $url = "sms/v1/test/text/multi";
         }
 
