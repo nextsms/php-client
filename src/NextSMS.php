@@ -15,24 +15,17 @@ use InvalidArgumentException;
  */
 class NextSMS
 {
-    /**
-     * @var array|null
-     */
-    protected ?array $options;
+    protected array $options;
 
-
-    /**
-     * @var Client|null
-     */
-    protected ?client $httpClient;
+    protected Client $httpClient;
 
     /**
      * NextSMS constructor.
-     * @param array|null $options
+     * @param array $options
      * @param Client|null $httpClient
      * @throws InvalidArgumentException
      */
-    public function __construct(?array $options = [], ?Client $httpClient = null)
+    public function __construct(array $options = [], ?Client $httpClient = null)
     {
         if (! array_key_exists('username', $options)) {
             throw new InvalidArgumentException("Username is required.");
@@ -48,7 +41,7 @@ class NextSMS
         $this->httpClient = $this->makeClient($options, $httpClient);
     }
 
-    protected function makeClient(?array $options, ?Client $client = null): Client
+    protected function makeClient(array $options, ?Client $client = null): Client
     {
         return ($client instanceof Client) ? $client : new Client([
             'base_uri' => 'https://messaging-service.co.tz/api/',
@@ -81,7 +74,7 @@ class NextSMS
      * ]
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5e466440-829b-4b56-be32-b681e4f81227}
-     * @returns mixed
+     * @return mixed
      * @throws InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -99,7 +92,7 @@ class NextSMS
         }
         $response = $this->httpClient->request("POST", $url, ['json' => $data]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -115,7 +108,7 @@ class NextSMS
      * ]
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#2936eed4-6027-45e7-92c9-fe1cd7df140b}
-     * @returns mixed
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function multipleDestinations(array $data)
@@ -138,7 +131,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -167,7 +160,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -191,7 +184,8 @@ class NextSMS
      *
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6916415a-4645-460d-bb3f-a6d6fbd60e4a}
-     * @returns mixed
+     * @param array $data
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function multipleMessagesToMultipleDifferentDestinations($data)
@@ -203,13 +197,13 @@ class NextSMS
             throw new InvalidArgumentException("Invalid Messages. Expected atleast one message");
         }
         foreach ($data['messages'] as $key => $message) {
-            if (! array_key_exists('from', $data)) {
+            if (! array_key_exists('from', $message)) {
                 throw new InvalidArgumentException("From field is required. On message #" . $key);
             }
-            if (! array_key_exists('text', $data)) {
+            if (! array_key_exists('text', $message)) {
                 throw new InvalidArgumentException("Message text is required. On message #" . $key);
             }
-            if (! array_key_exists('to', $data)) {
+            if (! array_key_exists('to', $message)) {
                 throw new InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
             }
         }
@@ -220,7 +214,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -274,7 +268,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -282,14 +276,14 @@ class NextSMS
      *  Get delivery reports with messageId
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5fc5b186-c4dc-4de0-9d0f-baee93d53c7d}
-     * @returns mixed
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getDeliveryReports()
     {
         $response = $this->httpClient->request("GET", "sms/v1/reports");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -308,7 +302,7 @@ class NextSMS
         }
         $response = $this->httpClient->request("GET", "sms/v1/reports?messageId={$messageId}");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -335,7 +329,7 @@ class NextSMS
 
         $response = $this->httpClient->get("sms/v1/reports?sentSince{$data['sentSince']}=&sentUntil={$data['sentUntil']}");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -365,7 +359,7 @@ class NextSMS
         }
         $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&limit={$data['limit']}&offset={$data['offset']}");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -378,9 +372,9 @@ class NextSMS
      *  'sentSince' => '2020-02-01',
      *  'sentUntil' => '2020-02-20'
      * ]
-     * @param array $data
      *
-     * @returns mixed
+     * @param array $data
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAllSentSms(array $data)
@@ -400,7 +394,7 @@ class NextSMS
 
         $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&to={$data['to']}&sentSince={$data['sentSince']}&sentUntil={$data['sentUntil']}");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -426,7 +420,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -455,7 +449,7 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -486,20 +480,20 @@ class NextSMS
             'json' => $data,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
-     * Get sms balance
+     * Get current SMS balance
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#570c9c63-4dc5-4ef5-aba5-1e4ba6d6d288}
      *
-     * @returns mixed
+     * @return mixed
      */
     public function getSmsBalance()
     {
         $response = $this->httpClient->request("GET", "sms/v1/balance");
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 }
