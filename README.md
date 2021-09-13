@@ -1,9 +1,12 @@
 # NextSMS for PHP
-[![Tests](https://github.com/nextsms/php-client/actions/workflows/php.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php.yml)
+
+[![Check & fix styling](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml)
+[![Psalm](https://github.com/nextsms/php-client/actions/workflows/psalm.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/psalm.yml)
+[![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 
-## For more see [documentation](./docs/index.md).
+## For more see [documentation](#).
 
 ## Usage
 
