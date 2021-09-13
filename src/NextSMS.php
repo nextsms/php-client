@@ -2,10 +2,8 @@
 
 namespace NextSMS\SDK;
 
-use Exception;
-use InvalidArgumentException;
 use GuzzleHttp\Client;
-
+use InvalidArgumentException;
 
 /**
 
@@ -17,7 +15,6 @@ use GuzzleHttp\Client;
  */
 class NextSMS
 {
-
     /**
      * @var array|null
      */
@@ -37,20 +34,19 @@ class NextSMS
      */
     public function __construct(?array $options = [], ?Client $httpClient = null)
     {
-        if (!array_key_exists('username', $options)) {
+        if (! array_key_exists('username', $options)) {
             throw new InvalidArgumentException("Username is required.");
         }
-        if (!array_key_exists('password', $options)) {
+        if (! array_key_exists('password', $options)) {
             throw new InvalidArgumentException("Password is required.");
         }
 
-        if (!array_key_exists('environment', $options)) {
+        if (! array_key_exists('environment', $options)) {
             $options['environment'] = 'testing';
         }
         $this->options = $options;
         $this->httpClient = $this->makeClient($options, $httpClient);
     }
-
 
     protected function makeClient(?array $options, ?Client $client = null): Client
     {
@@ -58,8 +54,8 @@ class NextSMS
             'base_uri' => 'https://messaging-service.co.tz/api/',
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => "Basic " . $this->makeToken($options['username'],$options['password']),
-                'Content-Type' => 'application/json'
+                'Authorization' => "Basic " . $this->makeToken($options['username'], $options['password']),
+                'Content-Type' => 'application/json',
             ],
         ]);
     }
@@ -89,19 +85,20 @@ class NextSMS
      * @throws InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  singleDestination(array $data)
+    public function singleDestination(array $data)
     {
-        if (!array_key_exists('to', $data)) {
+        if (! array_key_exists('to', $data)) {
             throw new InvalidArgumentException("Recipient Number is required.");
         }
-        if (!array_key_exists('text', $data)) {
+        if (! array_key_exists('text', $data)) {
             throw new InvalidArgumentException("Text Message is required.");
         }
-        $url  = "sms/v1/text/single";
+        $url = "sms/v1/text/single";
         if ($this->options['environment'] == 'testing') {
             $url = "sms/v1/test/text/single";
         }
         $response = $this->httpClient->request("POST", $url, ['json' => $data]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -123,13 +120,13 @@ class NextSMS
      */
     public function multipleDestinations(array $data)
     {
-        if (!array_key_exists('from', $data)) {
+        if (! array_key_exists('from', $data)) {
             throw new InvalidArgumentException("From field is required.");
         }
-        if (!array_key_exists('text', $data)) {
+        if (! array_key_exists('text', $data)) {
             throw new InvalidArgumentException("Message text is required.");
         }
-        if (!array_key_exists('to', $data)) {
+        if (! array_key_exists('to', $data)) {
             throw new InvalidArgumentException("Recipient Numbers are required.");
         }
         $url = "sms/v1/text/multi";
@@ -140,6 +137,7 @@ class NextSMS
         $response = $this->httpClient->request("POST", $url, [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -160,14 +158,15 @@ class NextSMS
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#b13825ab-8b49-45f5-a4cd-fb7d21aa975a }
      */
-    public function   multipleMessagesToMultipleDestinations(array $data)
+    public function multipleMessagesToMultipleDestinations(array $data)
     {
-        if (!array_key_exists('messages', $data)) {
+        if (! array_key_exists('messages', $data)) {
             throw new InvalidArgumentException("Messages are required.");
         }
         $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -195,22 +194,22 @@ class NextSMS
      * @returns mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  multipleMessagesToMultipleDifferentDestinations($data)
+    public function multipleMessagesToMultipleDifferentDestinations($data)
     {
-        if (!array_key_exists('messages', $data)) {
+        if (! array_key_exists('messages', $data)) {
             throw new InvalidArgumentException("Messages are required.");
         }
         if (count($data['messages']) < 0) {
             throw new InvalidArgumentException("Invalid Messages. Expected atleast one message");
         }
         foreach ($data['messages'] as $key => $message) {
-            if (!array_key_exists('from', $data)) {
+            if (! array_key_exists('from', $data)) {
                 throw new InvalidArgumentException("From field is required. On message #" . $key);
             }
-            if (!array_key_exists('text', $data)) {
+            if (! array_key_exists('text', $data)) {
                 throw new InvalidArgumentException("Message text is required. On message #" . $key);
             }
-            if (!array_key_exists('to', $data)) {
+            if (! array_key_exists('to', $data)) {
                 throw new InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
             }
         }
@@ -220,6 +219,7 @@ class NextSMS
         $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -252,30 +252,30 @@ class NextSMS
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  scheduleSms(array $data)
+    public function scheduleSms(array $data)
     {
-        if (!array_key_exists('messages', $data)) {
+        if (! array_key_exists('messages', $data)) {
             throw new InvalidArgumentException("Messages are required.");
         }
-        if (!array_key_exists('to', $data)) {
+        if (! array_key_exists('to', $data)) {
             throw new InvalidArgumentException("Recipient is required.");
         }
-        if (!array_key_exists('text', $data)) {
+        if (! array_key_exists('text', $data)) {
             throw new InvalidArgumentException("Message is required.");
         }
-        if (!array_key_exists('date', $data)) {
+        if (! array_key_exists('date', $data)) {
             throw new InvalidArgumentException("Schedule date is required.");
         }
-        if (!array_key_exists('time', $data)) {
+        if (! array_key_exists('time', $data)) {
             throw new InvalidArgumentException("Schedule time is required.");
         }
 
         $response = $this->httpClient->request("POST", "sms/v1/text/single", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
-
 
     /**
      *
@@ -285,9 +285,10 @@ class NextSMS
      * @returns mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  getDeliveryReports()
+    public function getDeliveryReports()
     {
         $response = $this->httpClient->request("GET", "sms/v1/reports");
+
         return json_decode($response->getBody(), true);
     }
 
@@ -300,12 +301,13 @@ class NextSMS
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function   getDeliveryReportsWithMessageId(int $messageId)
+    public function getDeliveryReportsWithMessageId(int $messageId)
     {
         if ($messageId < 0) {
             throw new InvalidArgumentException("Invalid Message ID. Message ID can not be negative.");
         }
         $response = $this->httpClient->request("GET", "sms/v1/reports?messageId={$messageId}");
+
         return json_decode($response->getBody(), true);
     }
 
@@ -322,19 +324,19 @@ class NextSMS
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function   getDeliveryReportsWithSpecificDateRange(array $data)
+    public function getDeliveryReportsWithSpecificDateRange(array $data)
     {
-        if (!array_key_exists('sentSince', $data)) {
+        if (! array_key_exists('sentSince', $data)) {
             throw new InvalidArgumentException("Sent since date is required.");
         }
-        if (!array_key_exists('sentUntil', $data)) {
+        if (! array_key_exists('sentUntil', $data)) {
             throw new InvalidArgumentException("Sent until date is required.");
         }
 
         $response = $this->httpClient->get("sms/v1/reports?sentSince{$data['sentSince']}=&sentUntil={$data['sentUntil']}");
+
         return json_decode($response->getBody(), true);
     }
-
 
     /**
      * Get all sent SMS logs
@@ -350,18 +352,19 @@ class NextSMS
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  getAllSentSmsLogs(array $data)
+    public function getAllSentSmsLogs(array $data)
     {
-        if (!array_key_exists('from', $data)) {
+        if (! array_key_exists('from', $data)) {
             throw new InvalidArgumentException("From field is required.");
         }
-        if (!array_key_exists('limit', $data)) {
+        if (! array_key_exists('limit', $data)) {
             throw new InvalidArgumentException("Limit count is required.");
         }
-        if (!array_key_exists('offset', $data)) {
+        if (! array_key_exists('offset', $data)) {
             throw new InvalidArgumentException("Offset count is required.");
         }
         $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&limit={$data['limit']}&offset={$data['offset']}");
+
         return json_decode($response->getBody(), true);
     }
 
@@ -380,22 +383,23 @@ class NextSMS
      * @returns mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  getAllSentSms(array $data)
+    public function getAllSentSms(array $data)
     {
-        if (!array_key_exists('from', $data)) {
+        if (! array_key_exists('from', $data)) {
             throw new InvalidArgumentException("From field is required.");
         }
-        if (!array_key_exists('to', $data)) {
+        if (! array_key_exists('to', $data)) {
             throw new InvalidArgumentException("To  is required.");
         }
-        if (!array_key_exists('sentSince', $data)) {
+        if (! array_key_exists('sentSince', $data)) {
             throw new InvalidArgumentException("Sent since date is required.");
         }
-        if (!array_key_exists('sentUntil', $data)) {
+        if (! array_key_exists('sentUntil', $data)) {
             throw new InvalidArgumentException("Sent until date is required.");
         }
 
         $response = $this->httpClient->get("sms/v1/logs?from={$data['from']}&to={$data['to']}&sentSince={$data['sentSince']}&sentUntil={$data['sentUntil']}");
+
         return json_decode($response->getBody(), true);
     }
 
@@ -416,13 +420,12 @@ class NextSMS
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function  registerSubCustomer(array $data)
+    public function registerSubCustomer(array $data)
     {
-
-
         $response = $this->httpClient->request("POST", "sms/v1/sub_customer/create", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -441,16 +444,17 @@ class NextSMS
      */
     public function rechargeCustomer(array $data)
     {
-        if (!array_key_exists('email', $data)) {
+        if (! array_key_exists('email', $data)) {
             throw new InvalidArgumentException("Email is required.");
         }
-        if (!array_key_exists('smscount', $data)) {
+        if (! array_key_exists('smscount', $data)) {
             throw new InvalidArgumentException("SMS count is required.");
         }
 
         $response = $this->httpClient->request("POST", "sms/v1/sub_customer/recharge", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -472,15 +476,16 @@ class NextSMS
      */
     public function deductCustomer(array $data)
     {
-        if (!array_key_exists('email', $data)) {
+        if (! array_key_exists('email', $data)) {
             throw new InvalidArgumentException("Email is required.");
         }
-        if (!array_key_exists('smscount', $data)) {
+        if (! array_key_exists('smscount', $data)) {
             throw new InvalidArgumentException("SMS count is required.");
         }
         $response = $this->httpClient->request("POST", "sms/v1/sub_customer/deduct", [
             'json' => $data,
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -494,6 +499,7 @@ class NextSMS
     public function getSmsBalance()
     {
         $response = $this->httpClient->request("GET", "sms/v1/balance");
+
         return json_decode($response->getBody(), true);
     }
 }

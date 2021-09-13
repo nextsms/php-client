@@ -10,7 +10,6 @@ use GuzzleHttp\Psr7\Response;
 use NextSMS\SDK\NextSMS;
 use PHPUnit\Framework\TestCase;
 
-
 class NextSMSTest extends TestCase
 {
     protected MockHandler $mock;
@@ -29,7 +28,7 @@ class NextSMSTest extends TestCase
         try {
             $this->nextsms = new NextSMS([
                 'username' => Fixture::$username,
-                'password' => Fixture::$password
+                'password' => Fixture::$password,
             ], $httpClient);
         } catch (\Exception $e) {
         }
@@ -47,7 +46,6 @@ class NextSMSTest extends TestCase
         $this->assertClassHasAttribute('options', get_class($this->nextsms));
         $this->assertClassHasAttribute('httpClient', get_class($this->nextsms));
     }
-
 
     /**
      * @test
@@ -67,10 +65,10 @@ class NextSMSTest extends TestCase
                     "groupName" => "PENDING",
                     "id" => 7,
                     "name" => "PENDING_ENROUTE",
-                    "description" => "Message sent to next instance"
+                    "description" => "Message sent to next instance",
                 ],
-                "smsCount" => 1
-            ]
+                "smsCount" => 1,
+            ],
         ]])));
 
         // Act
@@ -79,9 +77,6 @@ class NextSMSTest extends TestCase
         // Assert
         $this->assertArrayHasKey('messages', $result);
     }
-
-
-
 
     /**
      * @test
@@ -103,9 +98,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255716718040",
@@ -114,11 +109,11 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
-                    ]
-                ]
+                        "smsCount" => 1,
+                    ],
+                ],
             ]
         )));
 
@@ -144,9 +139,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255655912841",
@@ -155,11 +150,11 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
-                    ]
-                ]
+                        "smsCount" => 1,
+                    ],
+                ],
             ]
         )));
 
@@ -169,6 +164,7 @@ class NextSMSTest extends TestCase
         // Assert
         $this->assertArrayHasKey('messages', $result);
     }
+
     public function multipleMessagesToMultipleDifferentDestinations()
     {
         // Arrange
@@ -184,9 +180,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255758483019",
@@ -195,9 +191,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255758483019",
@@ -206,9 +202,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255655912841",
@@ -217,9 +213,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
+                        "smsCount" => 1,
                     ],
                     [
                         "to" => "255716718040",
@@ -228,11 +224,11 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "smsCount" => 1
-                    ]
-                ]
+                        "smsCount" => 1,
+                    ],
+                ],
             ]
         )));
 
@@ -242,6 +238,7 @@ class NextSMSTest extends TestCase
         // Assert
         $this->assertArrayHasKey('messages', $result);
     }
+
     public function scheduleSms()
     {
 
@@ -258,11 +255,11 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 26,
                             "name" => "PENDING_ACCEPTED",
-                            "description" => "Pending accepted , will be sent on scheduled time."
+                            "description" => "Pending accepted , will be sent on scheduled time.",
                         ],
-                        "smsCount" => 1
-                    ]
-                ]
+                        "smsCount" => 1,
+                    ],
+                ],
             ]
         )));
 
@@ -272,6 +269,7 @@ class NextSMSTest extends TestCase
         // Assert
         $this->assertArrayHasKey('messages', $result);
     }
+
     // public function getDeliveryReports()
     // {
 
@@ -333,7 +331,6 @@ class NextSMSTest extends TestCase
         // Reset the queue and queue up a new response
         $this->mock->reset();
         $this->mock->append(new Response(200, [], json_encode(
-
             [
                 "results" => [
                     [
@@ -349,9 +346,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "PENDING",
                             "id" => 7,
                             "name" => "PENDING_ENROUTE",
-                            "description" => "Message sent to next instance"
+                            "description" => "Message sent to next instance",
                         ],
-                        "error" => null
+                        "error" => null,
                     ],
                     [
                         "messageId" => "28255409354101630625",
@@ -366,9 +363,9 @@ class NextSMSTest extends TestCase
                             "groupName" => "REJECTED",
                             "id" => 12,
                             "name" => "REJECTED_NOT_ENOUGH_CREDITS",
-                            "description" => "Not enough credits"
+                            "description" => "Not enough credits",
                         ],
-                        "error" => null
+                        "error" => null,
                     ],
                     [
                         "messageId" => "28089492984101631440",
@@ -383,7 +380,7 @@ class NextSMSTest extends TestCase
                             "groupName" => "DELIVERED",
                             "id" => 5,
                             "name" => "DELIVERED_TO_HANDSET",
-                            "description" => "Message delivered to handset"
+                            "description" => "Message delivered to handset",
                         ],
                         "error" => [
                             "groupId" => 0,
@@ -391,10 +388,10 @@ class NextSMSTest extends TestCase
                             "id" => 0,
                             "name" => "NO_ERROR",
                             "description" => "No Error",
-                            "permanent" => false
-                        ]
-                    ]
-                ]
+                            "permanent" => false,
+                        ],
+                    ],
+                ],
             ]
         )));
 
@@ -404,6 +401,7 @@ class NextSMSTest extends TestCase
         // Assert
         $this->assertArrayHasKey('results', $result);
     }
+
     public function registerSubCustomer()
     {
         // Arrange
@@ -420,8 +418,8 @@ class NextSMSTest extends TestCase
                     "phone_number" => "+255738234339",
                     "email" => "apicust@customer.com",
                     "account_type" => "Sub Customer (Reseller)",
-                    "sms_price" => "20.00 TSH"
-                ]
+                    "sms_price" => "20.00 TSH",
+                ],
             ]
         )));
 
@@ -432,13 +430,13 @@ class NextSMSTest extends TestCase
         $this->assertArrayHasKey('success', $result);
         $this->assertArrayHasKey('status', $result);
     }
+
     public function rechargeCustomer()
     {
         // Arrange
         // Reset the queue and queue up a new response
         $this->mock->reset();
         $this->mock->append(new Response(200, [], json_encode(
-
             [
                 "success" => true,
                 "status" => 200,
@@ -446,8 +444,8 @@ class NextSMSTest extends TestCase
                 "result" => [
                     "Customer" => "example@email.com",
                     "Sms transferred" => 5000,
-                    "Your sms balance" => 450000
-                ]
+                    "Your sms balance" => 450000,
+                ],
             ]
         )));
 
@@ -458,6 +456,7 @@ class NextSMSTest extends TestCase
         $this->assertArrayHasKey('success', $result);
         $this->assertArrayHasKey('status', $result);
     }
+
     public function deductCustomer()
     {
         // Arrange
@@ -472,8 +471,8 @@ class NextSMSTest extends TestCase
                     "Customer" => "example@email.com",
                     "Sms deducted" => 2000,
                     "Your sms balance" => 470000,
-                    "Customer sms balance" => 3000
-                ]
+                    "Customer sms balance" => 3000,
+                ],
             ]
         )));
 
@@ -484,6 +483,7 @@ class NextSMSTest extends TestCase
         $this->assertArrayHasKey('success', $result);
         $this->assertArrayHasKey('status', $result);
     }
+
     public function getSmsBalance()
     {
 
@@ -492,7 +492,7 @@ class NextSMSTest extends TestCase
         $this->mock->reset();
         $this->mock->append(new Response(200, [], json_encode(
             [
-                "sms_balance" => 5
+                "sms_balance" => 5,
             ]
         )));
 

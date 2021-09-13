@@ -11,7 +11,7 @@ class Fixture
     public static array $singleDestination = [
         'from' => 'NEXTSMS',
         'to' => '255716718040',
-        'text' => 'Hello World'
+        'text' => 'Hello World',
 
     ];
 
@@ -19,7 +19,7 @@ class Fixture
     [
         "from" => "NEXTSMS",
         "to" => ['255655912841', '255716718040'],
-        "text" => "Your message"
+        "text" => "Your message",
     ];
 
 
@@ -59,7 +59,7 @@ class Fixture
     [
         'from' => '2020-02-01',
         'limit' => '10',
-        'offset' => '10'
+        'offset' => '10',
     ];
 
 
@@ -67,7 +67,7 @@ class Fixture
         'from' => 'NEXTSMS',
         'to' => '255716718040',
         'sentSince' => '2020-02-01',
-        'sentUntil' => '2020-02-20'
+        'sentUntil' => '2020-02-20',
     ];
 
     public static array  $registerSubCustomer =
@@ -83,11 +83,11 @@ class Fixture
 
     public static array  $rechargeCustomer = [
         'email' => 'example@email.com',
-        'smscount' => 5000
+        'smscount' => 5000,
     ];
 
     public static array  $deductCustomer = [
         'email' => 'example@email.com',
-        'smscount' => 2000
+        'smscount' => 2000,
     ];
 }
