@@ -2,10 +2,10 @@
 
 ## NextSMS Class
 
-### 
+###
 
-- protected ?array $options;
-- protected ?client $httpClient;
+-   protected ?array $options;
+-   protected ?client $httpClient;
 
 ### Methods
 

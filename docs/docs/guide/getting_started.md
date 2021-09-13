@@ -6,17 +6,14 @@
 composer require nextsms/php-client
 ```
 
-
 ## Usage
-
-
 
 ```php
 require 'vendor/autoload.php';
 
 use NextSMS\SDK\Client;
 
-// Intiate with credentials
+// Initiate with credentials
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
@@ -36,4 +33,3 @@ $result = $client->singleDestination($data);
 // Print results
 var_dump($result);
 ```
-
