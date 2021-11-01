@@ -4,9 +4,14 @@ NextSMS is an interface that provides access to the NextSMS API service .
 
 ## Available Functions
 
-## \_\_construct(?array $options, ?Client $httpClient = null)
+## New NextSMS Instance
+
+```php
+new NextSMS(?array $options, ?Client $httpClient = null)
+```
 
 ## singleDestination(array $data)
+
 Example
 
 ```php
@@ -25,6 +30,7 @@ $result = $client->singleDestination([
 ```
 
 ## multipleDestinations(array $data)
+
 Example
 
 ```php
@@ -41,8 +47,8 @@ $result = $client->multipleDestinations([
     ]);
 ```
 
-
 ## multipleMessagesToMultipleDestinations(array $data)
+
 Example
 
 ```php
@@ -60,8 +66,8 @@ $result = $client->multipleMessagesToMultipleDestinations( [
     ]);
 ```
 
-
 ## multipleMessagesToMultipleDifferentDestinations($data)
+
 Example
 
 ```php
@@ -88,6 +94,7 @@ $result = $client->multipleMessagesToMultipleDifferentDestinations([
 ```
 
 ## scheduleSms(array $data)
+
 Example
 
 ```php
@@ -107,6 +114,7 @@ $result = $client->scheduleSms(  [
 ```
 
 ## getDeliveryReports()
+
 Example
 
 ```php
@@ -119,8 +127,8 @@ $client = new Client([
 $result = $client->getDeliveryReports($data);
 ```
 
-
 ## getDeliveryReportsWithMessageId(int $messageId)
+
 Example
 
 ```php
@@ -128,13 +136,13 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
 $result = $client->getDeliveryReportsWithMessageId("MESSAGE_ID");
 ```
 
-
 ## getDeliveryReportsWithSpecificDateRange(array $data)
+
 Example
 
 ```php
@@ -142,13 +150,16 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
-$result = $client->getDeliveryReportsWithSpecificDateRange($data);
+$result = $client->getDeliveryReportsWithSpecificDateRange( [
+    'sentSince' => '',
+    'sentUntil' => '',
+]);
 ```
 
-<!-- 
 ## getAllSentSmsLogs(array $data)
+
 Example
 
 ```php
@@ -156,11 +167,17 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production', 
 ]);
-$result = $client->singleDestination($data);
+$result = $client->getAllSentSmsLogs([
+    'from' =>'2020-02-01',
+    'limit' =>'10',
+    'offset' =>'10'
+]);
 ```
+
 ## getAllSentSms(array $data)
+
 Example
 
 ```php
@@ -168,11 +185,18 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
-$result = $client->singleDestination($data);
+$result = $client->getAllSentSms([
+    'from' => 'NEXTSMS',
+    'to' => '255716718040',
+    'sentSince' => '2020-02-01',
+    'sentUntil' => '2020-02-20'
+]);
 ```
+
 ## registerSubCustomer(array $data)
+
 Example
 
 ```php
@@ -180,11 +204,21 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production'
 ]);
-$result = $client->singleDestination($data);
+$result = $client->registerSubCustomer([
+    first_name => 'Api',
+    last_name => 'Customer',
+    username => 'apicust',
+    email => 'apicust@customer.com',
+    phone_number => '0738234339',
+    account_type => 'Sub Customer (Reseller)',
+    sms_price => 20,
+]);
 ```
+
 ## rechargeCustomer(array $data)
+
 Example
 
 ```php
@@ -192,11 +226,16 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
-$result = $client->singleDestination($data);
+$result = $client->rechargeCustomer([
+    'email' => 'example@email.com',
+    'smscount' => 5000
+]);
 ```
+
 ## deductCustomer(array $data)
+
 Example
 
 ```php
@@ -204,11 +243,16 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
-$result = $client->singleDestination($data);
+$result = $client->deductCustomer([
+    'email' => 'example@email.com',
+    'smscount' => 2000
+]);
 ```
+
 ## getSmsBalance()
+
 Example
 
 ```php
@@ -217,6 +261,7 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+    'enviroment' => 'production',
 ]);
-$result = $client->singleDestination($data);``` -->
+$result = $client->getSmsBalance();
+```

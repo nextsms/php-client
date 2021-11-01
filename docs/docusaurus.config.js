@@ -5,8 +5,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'NextSMS PHP Client',
   tagline: 'NextSMS SDK for PHP applications',
-  url: 'https://nextsms.github.io/',
-  baseUrl: '/php-client/',
+  url: 'https://nextsms-php.netlify.app/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -47,14 +47,11 @@ module.exports = {
               label: 'Stack Overflow',
               href: 'https://stackoverflow.com/questions/tagged/nextsms',
             },
-            // {
-            //   label: 'Discord',
-            //   href: 'https://discordapp.com/invite/docusaurus',
-            // },
-            // {
-            //   label: 'Twitter',
-            //   href: 'https://twitter.com/docusaurus',
-            // },
+          
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/alphaolomi',
+            },
           ],
         },
         {
