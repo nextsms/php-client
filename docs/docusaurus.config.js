@@ -3,15 +3,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'NextSMS PHP Client',
+  title: 'NextSMS SDK for PHP ',
   tagline: 'NextSMS SDK for PHP applications',
   url: 'https://nextsms-php.netlify.app/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'nextsms', 
+  projectName: 'php-client',
   themeConfig: {
     navbar: {
       title: 'NextSMS PHP Client',
