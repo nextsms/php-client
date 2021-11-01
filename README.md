@@ -5,8 +5,9 @@
 [![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
+The NextSMS SDK for PHP makes it easy for developers to access NextSMS Services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
 
-## For more see [documentation](#).
+## For more see [documentation](https://nextsms-php.netlify.app/).
 
 ## Usage
 

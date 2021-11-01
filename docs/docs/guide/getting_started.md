@@ -1,6 +1,8 @@
 # Getting started
 
-## Installation
+> Simple, fast, and powerful.
+
+## installation Using [Composer](https://getcomposer.org/)
 
 ```sh
 composer require nextsms/php-client

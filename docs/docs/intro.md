@@ -2,34 +2,25 @@
 sidebar_position: 1
 ---
 
-# Tutorial Introduction
+# NextSMS SDK for PHP
 
-Let's discover **Docusaurus in less than 5 minutes**.
+The NextSMS SDK for PHP makes it easy for developers to access NextSMS Services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
 
-## Getting Started
+<br>
 
-Get started by **creating a new site**.
+## Contributing
 
-Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)**.
+Please review our CONTRIBUTING for details.
 
-## Generate a new site
+### Security
 
-Generate a new Docusaurus site using the **classic template**:
+If you discover any security related issues, please email [alphaolomi@gmail.com](mailto:alphaolomi@gmail.com) instead of using the issue tracker.
 
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
+## Credits
 
-## Start your site
+-   [Alpha Olomi](https://github.com/alphaolomi)
+-   [Contributors](https://github.com/nextsms/php-client/graphs/contributors)
 
-Run the development server:
+## License
 
-```shell
-cd my-website
-
-npx docusaurus start
-```
-
-Your site starts at `http://localhost:3000`.
-
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+The MIT License (MIT). Please see License File for more information.

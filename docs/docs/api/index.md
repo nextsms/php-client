@@ -1,4 +1,9 @@
-# API
+---
+sidebar_position: 6
+title: API Description
+---
+
+# APIs
 
 NextSMS is an interface that provides access to the NextSMS API service .
 
@@ -167,7 +172,7 @@ use NextSMS\SDK\Client;
 $client = new Client([
     'username' => 'YOUR_USERNAME',
     'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'production', 
+    'enviroment' => 'production',
 ]);
 $result = $client->getAllSentSmsLogs([
     'from' =>'2020-02-01',
