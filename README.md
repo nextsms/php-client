@@ -39,7 +39,24 @@ $result = $client->singleDestination($data);
 var_dump($result);
 ```
 
+## API available
 
+See Full API [Docs](https://github.com/nextsms/php-client/blob/main/docs/docs/api/index.md).
+
+- `singleDestination(array $data)`
+- `multipleDestinations(array $data)`
+- `multipleMessagesToMultipleDestinations(array $data)`
+- `multipleMessagesToMultipleDifferentDestinations($data)`
+- `scheduleSms(array $data)`
+- `getDeliveryReports()`
+- `getDeliveryReportsWithMessageId(int $messageId)`
+- `getDeliveryReportsWithSpecificDateRange(array $data)`
+- `getAllSentSmsLogs(array $data)`
+- `getAllSentSms(array $data)`
+- `registerSubCustomer(array $data)`
+- `rechargeCustomer(array $data)`
+- `deductCustomer(array $data)`
+- `getSmsBalance()`
 
 ### Testing
 
