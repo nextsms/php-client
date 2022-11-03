@@ -1,89 +1,88 @@
-# NextSMS for PHP
+# Nextsms for PHP
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
+[![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
 [![Check & fix styling](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml)
-[![Psalm](https://github.com/nextsms/php-client/actions/workflows/psalm.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/psalm.yml)
-[![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
-The NextSMS SDK for PHP makes it easy for developers to access NextSMS Services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
+The `Nextsms for PHP` makes it easy for developers to access Nextsms services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
 
-## For more see [documentation](https://nextsms-php.netlify.app/).
+> **V2:** You are currently viewing the documentation for the NextSMS PHP SDK V2. If you are looking for the documentation for the V1 SDK, you can find it [here](#).
+
+
+## Installation
+
+> **Requirement:** PHP 8.0 or higher is required.
+
+You can install the package via Composer:
+
+```bash
+composer require nextsms/php-client
+```
 
 ## Usage
-
-### Quick Examples
 
 ```php
 require 'vendor/autoload.php';
 
-use NextSMS\SDK\Client;
+use Nextsms\Nextsms;
 
-// Intiate with credentials
-$client = new Client([
-    'username' => 'YOUR_USERNAME',
-    'password' => 'YOUR_PASSWORD',
-    'enviroment' => 'testing', // or production
+$client = Nextsms::create(username:  'YOUR_USERNAME',password:  'YOUR_PASSWORD');
+
+$message = $client->message()->send(new Message(
+    to: '2557123456789',
+    text: 'Hello World',
+));
+
+$message = $client->message()->sendLater(
+    new Message(to: '2557123456789', text: 'Hello World'), 
+    new DateTime('2021-01-01 12:00:00')
+);
+
+
+// Customer
+$customer = new Customer::create([
+    "first_name": "Api",
+    "last_name": "Customer",
+    "username": "apicust",
+    "email": "apicust@customer.com",
+    "phone_number": "0738234339",
+    "account_type": "Sub Customer (Reseller)", 
+    "sms_price": 20
 ]);
 
-// Setup the transaction
-$data = [
-    'from'  => 'NEXTSMS',
-    'to'    => '2557123456789',
-    'text'  => 'Hello World',
-];
-
-// Execute
-$result = $client->singleDestination($data);
-
-// Print results
-var_dump($result);
+$customer = $client->customer()->create($customer);
 ```
 
-## API available
+## Testing
 
-See Full API [Docs](https://github.com/nextsms/php-client/blob/main/docs/docs/api/index.md).
-
-- `singleDestination(array $data)`
-- `multipleDestinations(array $data)`
-- `multipleMessagesToMultipleDestinations(array $data)`
-- `multipleMessagesToMultipleDifferentDestinations($data)`
-- `scheduleSms(array $data)`
-- `getDeliveryReports()`
-- `getDeliveryReportsWithMessageId(int $messageId)`
-- `getDeliveryReportsWithSpecificDateRange(array $data)`
-- `getAllSentSmsLogs(array $data)`
-- `getAllSentSms(array $data)`
-- `registerSubCustomer(array $data)`
-- `rechargeCustomer(array $data)`
-- `deductCustomer(array $data)`
-- `getSmsBalance()`
-
-### Testing
+Using [Pest](http://pestphp.com).
 
 ```bash
 composer test
 ```
 
-## Opening Issues
+## Changelog
 
-If you have a feature requrest or you encounter a bug, please file an issue on [our issue tracker on GitHub](https://github.com/NextSMS/php-client/issues).
-
-### Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
-Please review our [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](./.github/CONTRIBUTING.md) for details.
 
-### Security
 
-If you discover any security related issues, please email [alphaolomi@gmail.com](mailto:alphaolomi@gmail.com) instead of using the issue tracker.
+## Star this repository
+
+If you enjoy this package, please star this repository to encourage further development.
+
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
--   [Alpha Olomi](https://github.com/alphaolomi)
--   [All Contributors](../../contributors)
+- [Alpha Olomi](https://github.com/nextsms)
+- [All Contributors](../../contributors)
 
 ## License
 
