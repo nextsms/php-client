@@ -1,9 +1,8 @@
 <?php
 
-namespace Nextsms\Nextsms\ValueObjects;
+declare(strict_types=1);
 
-use Nextsms\Nextsms\Traits\HasErrors;
-use Nextsms\Nextsms\Traits\HasStatus;
+namespace Nextsms\Nextsms\ValueObjects;
 
 /**
  * @author Alphs Olomi
@@ -11,23 +10,15 @@ use Nextsms\Nextsms\Traits\HasStatus;
  */
 class Message
 {
-    use HasStatus;
-    use HasErrors;
 
-    protected $id;
-    protected $messageId;
-    protected $from = 'NEXTSMS';
-    protected $to;
-    protected $message;
-    protected $date;
-    protected $time;
-    protected $status;
-
-    // "groupId": 1,
-    // "groupName": "PENDING",
-    // "id": 7,
-    // "name": "PENDING_ENROUTE",
-    // "description": "Message sent to next instance"
+    private int $id;
+    private string $messageId;
+    private string $from = 'NEXTSMS';
+    private array|string $to;
+    private string $message;
+    private \DateTime $date;
+    private \Datetime $time;
+    private Status $status;
 
     public function __construct(array $data)
     {
@@ -36,10 +27,19 @@ class Message
         $this->from = $data['from'];
         $this->to = $data['to'];
         $this->message = $data['message'];
-        $this->date = $data['date'];
-        $this->time = $data['time'];
-        $this->status = $data['status'];
+        $this->date = \DateTime::createFromFormat('Y:m:d', $data['date']);
+        $this->time = \DateTime::createFromFormat('H:i', $data['time']);
+        if (isset($data['status'])) {
+            $this->status = Status::create($data['status']);
+        }
     }
+
+    // text
+    public static function text(string|array $text): self
+    {
+        return new self(['text' => $text]);
+    }
+
 
     // toArray
     public function toArray()
@@ -52,7 +52,13 @@ class Message
             'message' => $this->message,
             'date' => $this->date,
             'time' => $this->time,
-            'status' => $this->status,
+            'status' => (string) $this->status,
         ];
+    }
+
+    // tostring
+    public function __toString()
+    {
+        return json_encode($this->toArray());
     }
 }

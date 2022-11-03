@@ -51,4 +51,9 @@ class Nextsms
     {
         return new Services\Customers($this->options, $this->httpClient);
     }
+
+    public function reports()
+    {
+        return new Services\DeliveryReports($this->options, $this->httpClient);
+    }
 }

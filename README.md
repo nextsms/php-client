@@ -27,12 +27,15 @@ require 'vendor/autoload.php';
 
 use Nextsms\Nextsms;
 
-$client = Nextsms::create(username:  'YOUR_USERNAME',password:  'YOUR_PASSWORD');
+$client = Nextsms::create(username: 'YOUR_USERNAME', password:  'YOUR_PASSWORD');
 
-$helloMessage = $client->messages()->send(Message::text(
-    text: 'Hello World',
-    to: '2557123456789',
-));
+$helloMessage = $client->messages()->send([
+    "to": '2557123456789',
+    "text": 'Hello World',
+]);
+// Or
+$message = Message::create(text: 'Hello World',to: '2557123456789');
+$helloMessage = $client->messages()->send($message);
 
 // Send Later
 $messageSchduled = $client->messages()->sendLater(
@@ -47,10 +50,31 @@ $manyMessages = $client->messages()->sendMany(
         Message::text(to: '2557123456789', text: 'Hello World'),
     ])
 );
+// Or
+$manyMessages = $client->messages()->sendMany(
+    MessageCollection::create([
+        Message::text(to: '2557123456789', text: 'Hello World'),
+        Message::text(to: [ '2557123456789', '2557123456789' ], text: 'Hello World'),
+    ]);    
+);
+
+// Delivery reports
+$allReports = $client->reports()->all();
+
+// Query
+$reports = $client->reports()
+    ->query()
+    // Using date string
+    ->sentFrom(date: '01-01-2022')
+    // Or using date object
+    ->sentUntill(date: \DateTime::create('now'))
+    ->get();
+
+$report = $client->reports()->get($messageId);
 // 
 
 // Customer
-$customer = new Customer::create([
+$customer = Customer::create([
     "first_name": "Api",
     "last_name": "Customer",
     "username": "apicust",

@@ -26,10 +26,12 @@ class MessageCollection
     }
 
     /**
-     * @return array
+     * @return array<Message>
      */
     public function getMessages()
     {
         return $this->messages;
     }
+
+    
 }

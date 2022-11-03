@@ -1,10 +1,40 @@
 <?php
 
-namespace Nextsms\Nextsms\Enum;
+declare(strict_types=1);
+
+namespace Nextsms\Nextsms\Enums;
 
 enum GroupName
 {
-    // 3	PENDING_WAITING_DELIVERY - Message has been processed and sent to the next instance i.e. mobile operator with request acknowledgment from their platform. Delivery report has not yet been received, and is awaited thus the status is still pending.
-    // 7	PENDING_ENROUTE - Message has been processed and sent to the next instance i.e. mobile operator.
-    // 26	PENDING_ACCEPTED - Message has been accepted and processed, and is ready to be sent to the next instance i.e. operator.
+    case PENDING_WAITING_DELIVERY;
+    case PENDING_ENROUTE;
+    case PENDING_ACCEPTED;
+
+    // from
+    public static function from(string $name): self
+    {
+        return match ($name) {
+            'PENDING_WAITING_DELIVERY' => self::PENDING_WAITING_DELIVERY,
+            'PENDING_ENROUTE' => self::PENDING_ENROUTE,
+            'PENDING_ACCEPTED' => self::PENDING_ACCEPTED,
+            default => throw new \InvalidArgumentException('Invalid Group Name'),
+        };
+    }
+
+    public function code(): int
+    {
+        return match ($this) {
+            GroupName::PENDING_WAITING_DELIVERY => 3,
+            GroupName::PENDING_ENROUTE => 7,
+            GroupName::PENDING_ACCEPTED => 25,
+        };
+    }
+    public function message(): string
+    {
+        return match ($this) {
+            GroupName::PENDING_WAITING_DELIVERY => 'Message has been processed and sent to the next instance i.e. mobile operator with request acknowledgment from their platform. Delivery report has not yet been received, and is awaited thus the status is still pending.',
+            GroupName::PENDING_ENROUTE => 'Message has been processed and sent to the next instance i.e. mobile operator.',
+            GroupName::PENDING_ACCEPTED => 'Message has been accepted and processed, and is ready to be sent to the next instance i.e. operator.',
+        };
+    }
 }
