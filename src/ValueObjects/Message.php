@@ -24,5 +24,4 @@ class Message
     // "id": 7,
     // "name": "PENDING_ENROUTE",
     // "description": "Message sent to next instance"
-
 }

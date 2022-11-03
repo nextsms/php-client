@@ -6,8 +6,6 @@ namespace Nextsms\Nextsms\Services;
 
 class Message
 {
-
-
     /**
      * Register Sub Customer
      * ```php
@@ -58,7 +56,7 @@ class Message
             "sms/v1/sub_customer/recharge",
             ["json" => [
                 'email' => $email,
-                'smscount' => $smsCount
+                'smscount' => $smsCount,
             ]]
         );
 
@@ -85,13 +83,12 @@ class Message
      */
     public function deduct(string $email, int $smsCount)
     {
-
         $response = $this->httpClient->request(
             "POST",
             "sms/v1/sub_customer/deduct",
             ["json" => [
                 'email' => $email,
-                'smscount' => $smsCount
+                'smscount' => $smsCount,
             ]]
         );
 

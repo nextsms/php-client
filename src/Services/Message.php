@@ -153,7 +153,6 @@ class Message
             if (! array_key_exists('to', $message)) {
                 throw new \InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
             }
-
         }
 
         $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
@@ -197,7 +196,7 @@ class Message
      */
     public function scheduleSms(array $data)
     {
-        foreach(['messages', 'from', 'to', 'text', 'date','time'] as $key) {
+        foreach (['messages', 'from', 'to', 'text', 'date','time'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
@@ -205,8 +204,8 @@ class Message
 
         $response = $this->httpClient->request(
             "POST",
-             "sms/v1/text/single",
-             ["json" => $data]
+            "sms/v1/text/single",
+            ["json" => $data]
         );
 
         return json_decode((string)$response->getBody(), true);
@@ -261,7 +260,7 @@ class Message
      */
     public function getDeliveryReportsWithSpecificDateRange(array $data)
     {
-        foreach(['sentSince', 'sentUntil'] as $key) {
+        foreach (['sentSince', 'sentUntil'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
@@ -290,7 +289,7 @@ class Message
      */
     public function getAllSentSmsLogs(array $data)
     {
-        foreach(['from', 'limit', 'offset'] as $key) {
+        foreach (['from', 'limit', 'offset'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
@@ -321,7 +320,7 @@ class Message
      */
     public function getAllSentSms(array $data)
     {
-        foreach(['from', 'to', 'sentSince', 'sentUntil'] as $key) {
+        foreach (['from', 'to', 'sentSince', 'sentUntil'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }

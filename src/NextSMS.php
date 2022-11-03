@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Nextsms\Nextsms;
@@ -28,7 +29,7 @@ class Nextsms
     public function __construct(array $options = [], ?GuzzleClient $httpClient = null)
     {
         foreach (['username', 'password', 'sender'] as $requiredOption) {
-            if (!isset($options[$requiredOption])) {
+            if (! isset($options[$requiredOption])) {
                 throw new \InvalidArgumentException(sprintf('The "%s" option must be set.', $requiredOption));
             }
         }

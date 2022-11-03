@@ -53,7 +53,6 @@ class NextSMSTest extends TestCase
      */
     public function canSendSingleDestination()
     {
-
         // Arrange
         // Reset the queue and queue up a new response
         $this->mock->reset();
@@ -84,7 +83,6 @@ class NextSMSTest extends TestCase
      */
     public function multipleDestinations()
     {
-
         // Arrange
         // Reset the queue and queue up a new response
         $this->mock->reset();
@@ -241,7 +239,6 @@ class NextSMSTest extends TestCase
 
     public function scheduleSms()
     {
-
         // Arrange
         // Reset the queue and queue up a new response
         $this->mock->reset();
@@ -486,7 +483,6 @@ class NextSMSTest extends TestCase
 
     public function getSmsBalance()
     {
-
         // Arrange
         // Reset the queue and queue up a new response
         $this->mock->reset();

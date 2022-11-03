@@ -13,6 +13,7 @@ class Client
         if (($client instanceof GuzzleClient)) {
             return $client;
         }
+
         return  new GuzzleClient([
             'base_uri' => 'https://messaging-service.co.tz/api/',
             'auth' => [$options['username'], $options['password']],

@@ -18,7 +18,6 @@ class Customer
 
     protected string $smsPrice;
 
-
     public function __construct(string $firstName, string $lastName, string $username, string $email, string $phoneNumber, string $accountType, string $smsPrice)
     {
         $this->firstName = $firstName;
@@ -54,7 +53,7 @@ class Customer
             'email' => $this->email,
             'phone_number' => $this->phoneNumber,
             'account_type' => $this->accountType,
-            'sms_price' => $this->smsPrice
+            'sms_price' => $this->smsPrice,
         ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }
