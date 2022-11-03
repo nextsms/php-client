@@ -10,9 +10,11 @@ class Customers
 {
     protected $httpClient;
 
-    public function __construct($httpClient) {
+    public function __construct($httpClient)
+    {
         $this->httpClient = $httpClient;
     }
+
     /**
      * Register Sub Customer
      * ```php
@@ -102,7 +104,7 @@ class Customers
             "sms/v1/sub_customer/deduct",
             ["json" => [
                 'email' => $customer,
-                'smscount' => $smsCount
+                'smscount' => $smsCount,
             ]]
         );
 

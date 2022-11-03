@@ -8,10 +8,10 @@ use Nextsms\Nextsms\ValueObjects\Message;
 
 class Messages
 {
-
     protected $httpClient;
 
-    public function __construct($httpClient) {
+    public function __construct($httpClient)
+    {
         $this->httpClient = $httpClient;
     }
 
@@ -34,7 +34,7 @@ class Messages
      */
     public function send(array|Message $data)
     {
-        if(is_array($data)) {
+        if (is_array($data)) {
             foreach (['to', 'text'] as $key) {
                 if (! array_key_exists($key, $data)) {
                     throw new \InvalidArgumentException("{$key} is required.");

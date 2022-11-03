@@ -32,5 +32,4 @@ class MessageCollection
     {
         return $this->messages;
     }
-
 }
