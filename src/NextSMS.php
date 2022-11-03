@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nextsms\Nextsms;
 
 use GuzzleHttp\Client as GuzzleClient;
+use Nextsms\Nextsms\Services;
 
 /**
 
@@ -40,5 +41,16 @@ class Nextsms
 
         $this->options = $options;
         $this->httpClient = Client::create($options, $httpClient);
+    }
+
+    public function messages()
+    {
+        return new Services\Messages($this->options, $this->httpClient);
+    }
+
+
+    public function customers()
+    {
+        return new Services\Customers($this->options, $this->httpClient);
     }
 }

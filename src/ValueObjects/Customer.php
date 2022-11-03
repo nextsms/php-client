@@ -2,6 +2,10 @@
 
 namespace Nextsms\Nextsms\ValueObjects;
 
+/**
+ * @author Alphs Olomi
+ * @version 2.0
+ */
 class Customer
 {
     protected string $firstName;

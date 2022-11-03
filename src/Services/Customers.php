@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Nextsms\Nextsms\Services;
 
-class Message
+use Nextsms\Nextsms\ValueObjects\Customer;
+
+class Customers
 {
+    protected $httpClient;
+
+    public function __construct($httpClient) {
+        $this->httpClient = $httpClient;
+    }
     /**
      * Register Sub Customer
      * ```php
@@ -24,8 +31,11 @@ class Message
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function register(array $data)
+    public function register(array|Customer $data)
     {
+        if ($data instanceof Customer) {
+            $data = $data->toArray();
+        }
         $response = $this->httpClient->request(
             "POST",
             "sms/v1/sub_customer/create",
@@ -49,15 +59,16 @@ class Message
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function recharge(string $email, int $smsCount)
+    public function recharge(string|Customer $customer, int $smsCount)
     {
+        if ($customer instanceof Customer) {
+            $customer = $customer->email;
+        }
+
         $response = $this->httpClient->request(
             "POST",
             "sms/v1/sub_customer/recharge",
-            ["json" => [
-                'email' => $email,
-                'smscount' => $smsCount,
-            ]]
+            ["json" => ['email' => $customer,'smscount' => $smsCount]]
         );
 
         return json_decode((string)$response->getBody(), true);
@@ -81,14 +92,17 @@ class Message
      * @param array $data
      * @return array
      */
-    public function deduct(string $email, int $smsCount)
+    public function deduct(string|Customer $customer, int $smsCount)
     {
+        if ($customer instanceof Customer) {
+            $customer = $customer->email;
+        }
         $response = $this->httpClient->request(
             "POST",
             "sms/v1/sub_customer/deduct",
             ["json" => [
-                'email' => $email,
-                'smscount' => $smsCount,
+                'email' => $customer,
+                'smscount' => $smsCount
             ]]
         );
 

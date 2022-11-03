@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace Nextsms\Nextsms\Services;
 
-class Message
+use Nextsms\Nextsms\ValueObjects\Message;
+
+class Messages
 {
+
+    protected $httpClient;
+
+    public function __construct($httpClient) {
+        $this->httpClient = $httpClient;
+    }
+
     /**
      *
      * Send SMS to Single destination/recipient
@@ -23,12 +32,17 @@ class Message
      * @throws InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function singleDestination(array $data)
+    public function send(array|Message $data)
     {
-        foreach (['to', 'text'] as $key) {
-            if (! array_key_exists($key, $data)) {
-                throw new \InvalidArgumentException("{$key} is required.");
+        if(is_array($data)) {
+            foreach (['to', 'text'] as $key) {
+                if (! array_key_exists($key, $data)) {
+                    throw new \InvalidArgumentException("{$key} is required.");
+                }
             }
+        }
+        if ($data instanceof Message) {
+            $data = $data->toArray();
         }
 
         $url = "sms/v1/text/single";
@@ -56,7 +70,7 @@ class Message
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function multipleDestinations(array $data)
+    public function sendMany(array $data)
     {
         if (! array_key_exists('from', $data)) {
             throw new \InvalidArgumentException("From field is required.");

@@ -29,16 +29,25 @@ use Nextsms\Nextsms;
 
 $client = Nextsms::create(username:  'YOUR_USERNAME',password:  'YOUR_PASSWORD');
 
-$message = $client->message()->send(new Message(
-    to: '2557123456789',
+$helloMessage = $client->messages()->send(Message::text(
     text: 'Hello World',
+    to: '2557123456789',
 ));
 
-$message = $client->message()->sendLater(
+// Send Later
+$messageSchduled = $client->messages()->sendLater(
     new Message(to: '2557123456789', text: 'Hello World'), 
     new DateTime('2021-01-01 12:00:00')
 );
 
+// Send to many
+$manyMessages = $client->messages()->sendMany(
+    MessageCollection::create([
+        Message::text(to: '2557123456789', text: 'Hello World'),
+        Message::text(to: '2557123456789', text: 'Hello World'),
+    ])
+);
+// 
 
 // Customer
 $customer = new Customer::create([
@@ -48,10 +57,17 @@ $customer = new Customer::create([
     "email": "apicust@customer.com",
     "phone_number": "0738234339",
     "account_type": "Sub Customer (Reseller)", 
-    "sms_price": 20
+    "sms_price": 200
 ]);
 
-$customer = $client->customer()->create($customer);
+// Create
+$customer = $client->customers()->create($customer);
+
+// Recharge
+$recharge = $client->customers()->recharge($customer, 1000);
+
+// Deduct
+$deduct = $client->customers()->deduct($customer, 1100);
 ```
 
 ## Testing
