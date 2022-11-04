@@ -18,7 +18,9 @@ class Customers
     /**
      * Register Sub Customer
      * ```php
-     * $data = [
+     * $customer = $client->customers()->create($customer);
+     * // Or
+     * $client->customers()->create([
      *     "first_name" => "Api",
      *     "last_name" => "Customer",
      *     "username" => "api_customer",
@@ -26,14 +28,14 @@ class Customers
      *     "phone_number" => "0738234339",
      *     "account_type" => "Sub Customer (Reseller)",
      *     "sms_price" => "20",
-     * ];
+     * ]);
      * ```
      *
-     * @param array $data sub_customer
+     * @param array $data
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function register(array|Customer $data)
+    public function create(array|Customer $data)
     {
         if ($data instanceof Customer) {
             $data = $data->toArray();
@@ -49,17 +51,13 @@ class Customers
 
     /**
      * Recharge customer
-     *
+     * Example
      * ```php
-     * $data = [
-     *      "email" => "example@email.com",
-     *      "smscount" => 5000
-     * ];
+     * $client->customers()->recharge("example@email.com", 300);
      * ```
      *
-     * @param array $data
+     * @param $data
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function recharge(string|Customer $customer, int $smsCount)
     {
@@ -85,10 +83,7 @@ class Customers
      *
      * Example
      * ```php
-     *  $data = [
-     *    'email' => 'example@email.com',
-     *    'smscount' => 2000
-     * ];
+     * $client->customers()->deduct("example@email.com", 300);
      * ```
      *
      * @param array $data

@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace Nextsms\Nextsms\Enums;
 
-enum GroupName
+enum GroupName: string
 {
-    case PENDING_WAITING_DELIVERY;
-    case PENDING_ENROUTE;
-    case PENDING_ACCEPTED;
-
-    // from
-    public static function from(string $name): self
-    {
-        return match ($name) {
-            'PENDING_WAITING_DELIVERY' => self::PENDING_WAITING_DELIVERY,
-            'PENDING_ENROUTE' => self::PENDING_ENROUTE,
-            'PENDING_ACCEPTED' => self::PENDING_ACCEPTED,
-            default => throw new \InvalidArgumentException('Invalid Group Name'),
-        };
-    }
+    case PENDING_WAITING_DELIVERY = "PENDING_WAITING_DELIVERY";
+    case PENDING_ENROUTE = "PENDING_ENROUTE";
+    case PENDING_ACCEPTED = "PENDING_ACCEPTED";
 
     public function code(): int
     {

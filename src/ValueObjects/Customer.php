@@ -33,7 +33,6 @@ class Customer
         $this->smsPrice = $smsPrice;
     }
 
-    // create
     public static function create(array $data)
     {
         return new self(
@@ -47,7 +46,6 @@ class Customer
         );
     }
 
-    // tostring
     public function __toString()
     {
         return json_encode([

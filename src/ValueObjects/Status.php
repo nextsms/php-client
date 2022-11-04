@@ -18,17 +18,18 @@ class Status
 
     public function __construct (array $data)
     {
-        $this->id = $data['id'];
-        $this->groupId = $data['groupId'];
-        $this->groupName = Enums\GroupName::from($data['groupName']);
-        $this->name = Enums\StatusName::from($data['name']);
-        $this->description = $data['description'];
+        $this->id = $data['id'] ?? 0;
+        $this->groupId = $data['groupId'] ?? 0;
+        $this->groupName = Enums\GroupName::from($data['groupName']) ?? Enums\GroupName::from('');
+        $this->name = Enums\StatusName::from($data['name']) ?? Enums\StatusName::from('');
+        $this->description = $data['description'] ?? '';
     }
     public static function create(array $data): self
     {
         return new self($data);
     }
 
-    // toString
+    // tostring
+
 
 }

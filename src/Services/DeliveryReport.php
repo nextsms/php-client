@@ -9,6 +9,8 @@ use Nextsms\Nextsms\ValueObjects\Message;
 class DeliveryReports
 {
     protected $httpClient;
+    private $sentSince;
+    private $sentUntil;
 
     public function __construct($httpClient)
     {
@@ -16,11 +18,11 @@ class DeliveryReports
     }
 
     /**
-     *
-     *  Get delivery reports with messageId
-     *
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#5fc5b186-c4dc-4de0-9d0f-baee93d53c7d}
-     * @return mixed
+     * Get delivery reports with messageId
+     * ```php
+     * $reports = $client->reports()->all();
+     * ```
+     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function all()
@@ -32,8 +34,11 @@ class DeliveryReports
 
     /**
      * Get delivery reports with messageId
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6402ce4e-d0d4-44ac-8606-a9d12a900974}
-     *
+    * ```php
+     * $reports = $client->reports()->find('123123');
+     * // Or
+     * $reports = $client->reports()->find($messageId);
+     * ```
      *
      * @param int|string|Message $messageId
      * @return array
@@ -54,28 +59,42 @@ class DeliveryReports
         return json_decode((string)$response->getBody(), true);
     }
 
-    /**
-     *
-     * GET Get delivery reports with specific date range
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#46fc5c9c-0cd4-4356-8cab-1e326e54940a}
-     *
-     * [
-     *  'sentSince' => '',
-     *  'sentUntil' => '',
-     * ]
-     * @param array $data
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function range(array $data)
+    public function sendSince(string|\Datetime $date)
     {
-        foreach (['sentSince', 'sentUntil'] as $key) {
-            if (! array_key_exists($key, $data)) {
-                throw new \InvalidArgumentException("{$key} is required.");
-            }
+        if ($date instanceof \Datetime) {
+            $date = $date->format('Y-m-d');
         }
+        $this->sentSince = $date;
+        return $this;
+    }
+
+    public function sentUntill(string|\Datetime $date)
+    {
+        if ($date instanceof \Datetime) {
+            $date = $date->format('Y-m-d');
+        }
+        $this->sentUntil = $date;
+        return $this;
+    }
+
+    /**
+     * Get delivery reports
+     *
+     * ```php
+     * $reports = $client->reports()
+     *   ->query()
+     *   // Using date string
+     *   ->sentFrom(date: '01-01-2022')
+     *   // Or using date object
+     *   ->sentUntill(date: \DateTime::create('now'))
+     *   ->get();
+     * ```
+     * @return array
+     */
+    public function get()
+    {
         $response = $this->httpClient->get(
-            "sms/v1/reports?sentSince{$data['sentSince']}=&sentUntil={$data['sentUntil']}"
+            "sms/v1/reports?sentSince{$this->sentSince}=&sentUntil={$this->sentUntil}"
         );
 
         return json_decode((string)$response->getBody(), true);
@@ -83,33 +102,22 @@ class DeliveryReports
 
     /**
      * Get all sent SMS logs
-     *
+     * Example
      * ```php
-     * $data = [
-     *  "from" =>"2020-02-01",
-     *  "limit" =>"10",
-     *  "offset" =>"10"
-     * ];
+     * $client->reports()->logs(from :"2020-02-01");
      * ```
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#493fa3f2-c96d-44cc-892d-b6e166dd0683}
-     * @param array $data
+     * @param string $from
+     * @param int $limit
+     * @param int $offset
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAllSentSmsLogs(array $data)
+    public function logs(string $from, int $limit = 10, int $offset = 10)
     {
-        foreach (['from', 'limit', 'offset'] as $key) {
-            if (! array_key_exists($key, $data)) {
-                throw new \InvalidArgumentException("{$key} is required.");
-            }
-        }
-
         $response = $this->httpClient->get(
-            "sms/v1/logs?from={$data['from']}&limit={$data['limit']}&offset={$data['offset']}"
+            "sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}"
         );
 
         return json_decode((string)$response->getBody(), true);
     }
-
-
 }

@@ -194,13 +194,15 @@ class Messages
      * Example
      *
      * ```php
-     *  $data = [
-     *     "from" =>  "SENDER",
+     * $client->messages()->sendLater(
+     *      $message,
+     *      \DateTime::createFromFormat('Y-m-d H:i:s', '2020-10-01 12:00:00'))
+     * );
+     * // Or
+     * $client->messages()->sendLater([
      *     "to" =>  "255716718040",
      *     "text" =>  "Your message",
-     *     "date" =>  "2020-10-01",
-     *     "time" =>  "12:00",
-     * ];
+     * ], \DateTime::createFromFormat('Y-m-d H:i', '2020-10-01 12:00'));
      * ```
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#59cc2941-482b-45ab-9721-a7abffc83bba}
      *
@@ -214,7 +216,7 @@ class Messages
             $data = $data->toArray();
         }
 
-        foreach (['from', 'to', 'text'] as $key) {
+        foreach (['to', 'text'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
@@ -239,21 +241,23 @@ class Messages
      * Get all sent SMS logs with optional parameter
      *
      * ```php
-     * $data = [
-     *  "from" => "NEXTSMS",
-     *  "to" => "255716718040",
-     *  "sentSince" => "2020-02-01",
-     *  "sentUntil" => "2020-02-20"
-     * ];
+     * $client->messages()->getSent(
+     *      query: ["from" => "NEXTSMS","to" => "255716718040"],
+     *      sentSince: \DateTime::createFromFormat('Y-m-d H:i:s', '2020-10-01 12:00:00'),
+     *      sentUntill: \DateTime::createFromFormat('Y-m-d H:i:s', '2020-10-01 12:00:00')
+     * );
      * ```
      *
      * @param array $data
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array
      */
-    public function getAllSentSms(array $data,string|\DateTime $sentSince = null)
-    {
-        foreach (['from', 'to', 'sentSince', 'sentUntil'] as $key) {
+    public function getSent(
+        array $data,
+        string|\DateTime $sentSince = null,
+        string|\DateTime $sentUntill = null,
+    ) {
+        // todo: implement this
+        foreach (['from', 'to'] as $key) {
             if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }

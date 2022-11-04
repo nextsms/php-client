@@ -33,5 +33,25 @@ class MessageCollection
         return $this->messages;
     }
 
-    
+    public function add(Message $message)
+    {
+        $this->messages[] = $message;
+    }
+
+    public function toArray()
+    {
+        return [
+            'messages' => array_map(fn ($message) => $message->toArray(), $this->messages)
+        ];
+    }
+
+    public function toJson()
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }
