@@ -41,7 +41,7 @@ class MessageCollection
     public function toArray()
     {
         return [
-            'messages' => array_map(fn ($message) => $message->toArray(), $this->messages)
+            'messages' => array_map(fn ($message) => $message->toArray(), $this->messages),
         ];
     }
 

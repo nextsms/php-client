@@ -18,6 +18,7 @@ enum GroupName: string
             GroupName::PENDING_ACCEPTED => 25,
         };
     }
+
     public function message(): string
     {
         return match ($this) {

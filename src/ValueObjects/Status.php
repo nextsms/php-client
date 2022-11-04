@@ -16,7 +16,7 @@ class Status
     protected Enums\StatusName $name;
     protected string $description;
 
-    public function __construct (array $data)
+    public function __construct(array $data)
     {
         $this->id = $data['id'] ?? 0;
         $this->groupId = $data['groupId'] ?? 0;
@@ -24,12 +24,11 @@ class Status
         $this->name = Enums\StatusName::from($data['name']) ?? Enums\StatusName::from('');
         $this->description = $data['description'] ?? '';
     }
+
     public static function create(array $data): self
     {
         return new self($data);
     }
 
     // tostring
-
-
 }

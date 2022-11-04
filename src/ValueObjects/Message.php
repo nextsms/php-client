@@ -10,7 +10,6 @@ namespace Nextsms\Nextsms\ValueObjects;
  */
 class Message
 {
-
     protected int $id;
     protected string $messageId;
     protected string $from = 'NEXTSMS';
@@ -39,7 +38,7 @@ class Message
     public static function create(string|array $text): self
     {
         return new self([
-            'text' => $text
+            'text' => $text,
         ]);
     }
 

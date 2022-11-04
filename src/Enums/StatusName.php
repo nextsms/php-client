@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Nextsms\Nextsms\Enums;
 
-enum StatusName :string
+enum StatusName: string
 {
-
     case REJECTED_NETWORK = "REJECTED_NETWORK";
     case REJECTED_PREFIX_MISSING = "REJECTED_PREFIX_MISSING";
     case REJECTED_DND = "REJECTED_DND";
@@ -24,8 +23,6 @@ enum StatusName :string
     case REJECTED_MESSAGE_TOO_LONG = "REJECTED_MESSAGE_TOO_LONG";
     case MISSING_TO = "MISSING_TO";
     case REJECTED_INVALID_DESTINATION = "REJECTED_INVALID_DESTINATION";
-
-
 
     public function code(): int
     {
@@ -49,6 +46,7 @@ enum StatusName :string
             StatusName::REJECTED_INVALID_DESTINATION => 52,
         };
     }
+
     public function message(): string
     {
         return match ($this) {

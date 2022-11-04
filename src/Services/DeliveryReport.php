@@ -65,6 +65,7 @@ class DeliveryReports
             $date = $date->format('Y-m-d');
         }
         $this->sentSince = $date;
+
         return $this;
     }
 
@@ -74,6 +75,7 @@ class DeliveryReports
             $date = $date->format('Y-m-d');
         }
         $this->sentUntil = $date;
+
         return $this;
     }
 
