@@ -7,7 +7,6 @@ test('tests/Enums/GroupNameTest.php', function () {
 
     expect($value->message())->toBeString();
     expect($value->code())->toBeNumeric();
-    // expect((string)$value)->toBeString();
 
     $this->assertEquals(GroupName::PENDING_WAITING_DELIVERY, GroupName::PENDING_WAITING_DELIVERY);
     $this->assertEquals(GroupName::PENDING_ENROUTE, GroupName::PENDING_ENROUTE);

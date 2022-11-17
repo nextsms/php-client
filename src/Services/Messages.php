@@ -34,21 +34,21 @@ class Messages
      */
     public function send(array|Message $data): array
     {
-       if (is_array($data)) {
-           foreach (['to', 'text'] as $key) {
-               if (! array_key_exists($key, $data)) {
-                   throw new \InvalidArgumentException("{$key} is required.");
-               }
-           }
-       }
-       if ($data instanceof Message) {
-        $data = $data->toArray();
-       }
+        if (is_array($data)) {
+            foreach (['to', 'text'] as $key) {
+                if (!array_key_exists($key, $data)) {
+                    throw new \InvalidArgumentException("{$key} is required.");
+                }
+            }
+        }
+        if ($data instanceof Message) {
+            $data = $data->toArray();
+        }
 
         $url = "sms/v1/text/single";
-       if ($this->options['environment'] == 'testing') {
-           $url = "sms/v1/test/text/single";
-       }
+        if ($this->options['environment'] == 'testing') {
+            $url = "sms/v1/test/text/single";
+        }
         $response = $this->httpClient->request("POST", $url, ['json' => $data]);
 
         return json_decode((string)$response->getBody(), true);
@@ -69,15 +69,26 @@ class Messages
      */
     public function sendMany(array $data)
     {
-        if (! array_key_exists('from', $data) && array_key_exists('from', $this->options) ) {
-            throw new \InvalidArgumentException("From field is required.");
+        if (array_key_exists('messages', $data)) {
+            foreach ($data['messages'] as $message) {
+                // if (! array_key_exists('from', $data) && array_key_exists('from', $this->options) ) {
+                //     throw new \InvalidArgumentException("From field is required.");
+                // }
+                if (!array_key_exists('text', $message)) {
+                    throw new \InvalidArgumentException("Message text is required.");
+                }
+                // if (! array_key_exists('to', $data)) {
+                //     throw new \InvalidArgumentException("Recipient Numbers are required.");
+                // }
+            }
+        } else {
+            if (!array_key_exists('to', $data)) {
+                throw new \InvalidArgumentException("Recipient Numbers are required.");
+            }
         }
-        if (! array_key_exists('text', $data)) {
-            throw new \InvalidArgumentException("Message text is required.");
-        }
-        if (! array_key_exists('to', $data)) {
-            throw new \InvalidArgumentException("Recipient Numbers are required.");
-        }
+
+
+
         $url = "sms/v1/text/multi";
         if ($this->options['environment'] == 'testing') {
             $url = "sms/v1/test/text/multi";
@@ -109,7 +120,7 @@ class Messages
      */
     public function multipleMessagesToMultipleDestinations(array $data)
     {
-        if (! array_key_exists('messages', $data)) {
+        if (!array_key_exists('messages', $data)) {
             throw new \InvalidArgumentException("Messages are required.");
         }
         $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
@@ -148,20 +159,20 @@ class Messages
      */
     public function multipleMessagesToMultipleDifferentDestinations(array $data)
     {
-        if (! array_key_exists('messages', $data)) {
+        if (!array_key_exists('messages', $data)) {
             throw new \InvalidArgumentException("Messages are required.");
         }
         if (count($data['messages']) < 0) {
             throw new \InvalidArgumentException("Invalid Messages. Expected atleast one message");
         }
         foreach ($data['messages'] as $key => $message) {
-            if (! array_key_exists('from', $message)) {
+            if (!array_key_exists('from', $message)) {
                 throw new \InvalidArgumentException("From field is required. On message #" . $key);
             }
-            if (! array_key_exists('text', $message)) {
+            if (!array_key_exists('text', $message)) {
                 throw new \InvalidArgumentException("Message text is required. On message #" . $key);
             }
-            if (! array_key_exists('to', $message)) {
+            if (!array_key_exists('to', $message)) {
                 throw new \InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
             }
         }
@@ -214,7 +225,7 @@ class Messages
         }
 
         foreach (['to', 'text'] as $key) {
-            if (! array_key_exists($key, $data)) {
+            if (!array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
         }
@@ -255,7 +266,7 @@ class Messages
     ) {
         // todo: implement this
         foreach (['from', 'to'] as $key) {
-            if (! array_key_exists($key, $data)) {
+            if (!array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
         }
