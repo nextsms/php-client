@@ -18,42 +18,49 @@ class Nextsms
 {
     protected array $options;
 
-    protected Client $client;
+    private GuzzleClient $httpClient;
 
     /**
      * NextSMS constructor.
      * @param array $options
-     * @param Client|null $httpClient
-     * @throws InvalidArgumentException
+     * @param GuzzleClient|null $httpClient
      */
     public function __construct(array $options = [], ?GuzzleClient $httpClient = null)
     {
-        foreach (['username', 'password', 'sender'] as $requiredOption) {
-            if (! isset($options[$requiredOption])) {
+        foreach (['username', 'password', 'senderId'] as $requiredOption) {
+            if (!isset($options[$requiredOption])) {
                 throw new \InvalidArgumentException(sprintf('The "%s" option must be set.', $requiredOption));
             }
         }
 
-        if (! array_key_exists('environment', $options)) {
+        if (!array_key_exists('environment', $options)) {
             $options['environment'] = 'testing';
         }
 
         $this->options = $options;
-        $this->httpClient = Client::create($options, $httpClient);
+
+        $this->httpClient = ($httpClient instanceof GuzzleClient) ? $httpClient :  new GuzzleClient([
+            'base_uri' => 'https://messaging-service.co.tz/api/',
+            'auth' => [$options['username'], $options['password']],
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
     }
 
-    public function messages()
+    public function messages(): Services\Messages
     {
-        return new Services\Messages($this->options, $this->httpClient);
+        return new Services\Messages($this->httpClient, $this->options);
     }
 
-    public function customers()
+    public function customers(): Services\Customers
     {
-        return new Services\Customers($this->options, $this->httpClient);
+        return new Services\Customers($this->httpClient, $this->options);
     }
 
-    public function reports()
+    public function reports(): Services\DeliveryReport
     {
-        return new Services\DeliveryReports($this->options, $this->httpClient);
+        return new Services\DeliveryReport($this->httpClient, $this->options);
     }
 }

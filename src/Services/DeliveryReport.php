@@ -6,7 +6,7 @@ namespace Nextsms\Nextsms\Services;
 
 use Nextsms\Nextsms\ValueObjects\Message;
 
-class DeliveryReports
+class DeliveryReport
 {
     protected $httpClient;
     private $sentSince;
@@ -23,9 +23,8 @@ class DeliveryReports
      * $reports = $client->reports()->all();
      * ```
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function all()
+    public function all(): array
     {
         $response = $this->httpClient->request("GET", "sms/v1/reports");
 
@@ -42,9 +41,8 @@ class DeliveryReports
      *
      * @param int|string|Message $messageId
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function find(int|string|Message $messageId)
+    public function find(int|string|Message $messageId): array
     {
         if ($messageId instanceof Message) {
             $messageId = $messageId->toArray()['messageId'];
@@ -59,7 +57,7 @@ class DeliveryReports
         return json_decode((string)$response->getBody(), true);
     }
 
-    public function sendSince(string|\Datetime $date)
+    public function sendSince(string|\Datetime $date): static
     {
         if ($date instanceof \Datetime) {
             $date = $date->format('Y-m-d');
@@ -69,7 +67,7 @@ class DeliveryReports
         return $this;
     }
 
-    public function sentUntill(string|\Datetime $date)
+    public function sentUntil(string|\Datetime $date): static
     {
         if ($date instanceof \Datetime) {
             $date = $date->format('Y-m-d');
@@ -88,12 +86,12 @@ class DeliveryReports
      *   // Using date string
      *   ->sentFrom(date: '01-01-2022')
      *   // Or using date object
-     *   ->sentUntill(date: \DateTime::create('now'))
+     *   ->sentUntil(date: \DateTime::create('now'))
      *   ->get();
      * ```
      * @return array
      */
-    public function get()
+    public function get(): array
     {
         $response = $this->httpClient->get(
             "sms/v1/reports?sentSince{$this->sentSince}=&sentUntil={$this->sentUntil}"
@@ -112,9 +110,8 @@ class DeliveryReports
      * @param int $limit
      * @param int $offset
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function logs(string $from, int $limit = 10, int $offset = 10)
+    public function logs(string $from, int $limit = 10, int $offset = 10): array
     {
         $response = $this->httpClient->get(
             "sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}"

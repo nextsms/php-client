@@ -10,39 +10,45 @@ namespace Nextsms\Nextsms\ValueObjects;
  */
 class Message
 {
-    protected int $id;
-    protected string $messageId;
-    protected string $from = 'NEXTSMS';
-    protected array|string $to;
-    protected string $message;
-    protected \DateTime $date;
-    protected \Datetime $time;
-    protected Status $status;
+    protected ?int $id = null;
+    protected ?string $messageId= null;
+    protected ?string $from = null;
+    protected null|array|string $to = null;
+    protected ?string $message= null;
+    protected ?\DateTime $date= null;
+    protected ?\Datetime $time= null;
+    protected ?Status $status= null;
 
-    public function __construct(array $data)
+    public function __construct()
     {
-        $this->id = $data['id'] ?? 0;
-        $this->messageId = $data['messageId'] ?? '';
-        $this->from = $data['from'] ?? 'NEXTSMS';
-        $this->to = $data['to'] ?? '';
-        $this->message = $data['message'] ?? '';
-        $this->date = \DateTime::createFromFormat('Y:m:d', $data['date']) ?? new \DateTime();
-        $this->time = \DateTime::createFromFormat('H:i', $data['time']) ?? new \DateTime();
-        if (isset($data['status'])) {
-            $this->status = Status::create($data['status']);
-        } else {
-            $this->status = Status::create([]);
+    }
+
+    public static function make(string|array $text): self
+    {
+        if (is_string($text)) {
+            $message = new self();
+            $message->message = $text;
+            return $message;
         }
+
+        if (is_array($text)) {
+            $message = new self();
+            $message->message = $text['message'] ?? null;
+            $message->from = $text['from'] ?? null;
+            $message->to = $text['to'] ?? null;
+            return $message;
+        }
+
+        return new self();
     }
 
-    public static function create(string|array $text): self
+    // isbulk
+    public function isBulk(): bool
     {
-        return new self([
-            'text' => $text,
-        ]);
+        return is_array($this->to);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->id,

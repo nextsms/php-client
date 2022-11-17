@@ -23,6 +23,7 @@ enum StatusName: string
     case REJECTED_MESSAGE_TOO_LONG = "REJECTED_MESSAGE_TOO_LONG";
     case MISSING_TO = "MISSING_TO";
     case REJECTED_INVALID_DESTINATION = "REJECTED_INVALID_DESTINATION";
+    case PENDING_ENROUTE= "PENDING_ENROUTE";
 
     public function code(): int
     {
@@ -51,7 +52,6 @@ enum StatusName: string
     {
         return match ($this) {
             StatusName::REJECTED_NETWORK => 'Message has been received, but the network is either out of our coverage or not setup on your account. Your account manager can inform you on the coverage status or setup the network in question.',
-            StatusName::REJECTED_NETWORK => "Message has been received, but the network is either out of our coverage or not setup on your account. Your account manager can inform you on the coverage status or setup the network in question.",
             StatusName::REJECTED_PREFIX_MISSING => "Message has been received, but has been rejected as the number is not recognized due to either incorrect number prefix or number length. This information is different for each network and is regularly updated.",
             StatusName::REJECTED_DND => "Message has been received, and rejected due to the user being subscribed to DND (Do Not Disturb) services, disabling any service traffic to their number.",
             StatusName::REJECTED_SOURCE => "Your account is set to accept only registered sender ID-s while the sender ID defined in the request has not been registered on your account.",

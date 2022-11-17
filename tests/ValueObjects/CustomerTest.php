@@ -3,7 +3,8 @@
 use Nextsms\Nextsms\ValueObjects\Customer;
 
 test('tests/ValueObjects/CustomerTest.php', function () {
-    $customer = Customer::create([
+
+    $customer = Customer::make([
         "first_name" => "Api",
         "last_name" => "Customer",
         "username" => "apicust",

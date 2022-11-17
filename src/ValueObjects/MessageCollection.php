@@ -20,7 +20,7 @@ class MessageCollection
      * MessageCollection constructor.
      * @param array $messages
      */
-    public function __construct(array $messages)
+    public function __construct(array $messages = [])
     {
         $this->messages = $messages;
     }
@@ -28,24 +28,24 @@ class MessageCollection
     /**
      * @return array<Message>
      */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->messages;
     }
 
-    public function add(Message $message)
+    public function add(Message $message): void
     {
         $this->messages[] = $message;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
-            'messages' => array_map(fn ($message) => $message->toArray(), $this->messages),
+            'messages' => array_map(fn (Message $message) => $message->toArray(), $this->messages),
         ];
     }
 
-    public function toJson()
+    public function toJson(): bool|string
     {
         return json_encode($this->toArray());
     }

@@ -27,20 +27,26 @@ require 'vendor/autoload.php';
 
 use Nextsms\Nextsms;
 
-$client = Nextsms::create(username: 'YOUR_USERNAME', password:  'YOUR_PASSWORD');
+$client = Nextsms::create(
+    username: 'YOUR_USERNAME',
+    password:  'YOUR_PASSWORD',
+    from: 'NEXTSMS'
+);
 
 $helloMessage = $client->messages()->send([
     "to": '2557123456789',
-    "text": 'Hello World',
+    "text": 'Hello World', 
+    // from is optional if you have set it in the constructor
 ]);
 // Or
 $message = Message::create(text: 'Hello World',to: '2557123456789');
+
 $helloMessage = $client->messages()->send($message);
 
 // Send Later
 $messageSchduled = $client->messages()->sendLater(
     new Message(to: '2557123456789', text: 'Hello World'), 
-    new DateTime('2021-01-01 12:00:00')
+    \DateTime::createFromFormat('Y-m-d', '2020-12-31')
 );
 
 // Send to many
@@ -75,13 +81,13 @@ $report = $client->reports()->get($messageId);
 
 // Customer
 $customer = Customer::create([
-    "first_name": "Api",
-    "last_name": "Customer",
-    "username": "apicust",
-    "email": "apicust@customer.com",
-    "phone_number": "0738234339",
-    "account_type": "Sub Customer (Reseller)", 
-    "sms_price": 200
+    "first_name" => "Api",
+    "last_name" => "Customer",
+    "username" => "apicust",
+    "email" => "apicust@customer.com",
+    "phone_number" => "0738234339",
+    "account_type" => "Sub Customer (Reseller)", 
+    "sms_price" => 200
 ]);
 
 // Create

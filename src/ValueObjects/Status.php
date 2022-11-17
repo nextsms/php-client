@@ -10,25 +10,36 @@ use Nextsms\Nextsms\Enums;
  */
 class Status
 {
-    protected int $id;
-    protected int $groupId;
-    protected Enums\GroupName $groupName;
-    protected Enums\StatusName $name;
-    protected string $description;
+    protected ?int $id;
+    protected ?int $groupId;
+    protected ?Enums\GroupName $groupName;
+    protected ?Enums\StatusName $name;
+    protected ?string $description;
 
-    public function __construct(array $data)
+    public function __construct()
     {
-        $this->id = $data['id'] ?? 0;
-        $this->groupId = $data['groupId'] ?? 0;
-        $this->groupName = Enums\GroupName::from($data['groupName']) ?? Enums\GroupName::from('');
-        $this->name = Enums\StatusName::from($data['name']) ?? Enums\StatusName::from('');
-        $this->description = $data['description'] ?? '';
     }
 
-    public static function create(array $data): self
+    public static function make(array $data): self
     {
-        return new self($data);
+        $status = new self();
+        $status->id = $data['id'] ?? null;
+        $status->groupId = $data['groupId'] ?? null;
+        $status->groupName = Enums\GroupName::from($data['groupName'] ?? null);
+        $status->name = Enums\StatusName::from($data['name'] ?? null);
+        $status->description = $data['description'] ?? null;
+
+        return $status;
     }
 
-    // tostring
+    public function __toString()
+    {
+        return json_encode([
+            'id' => $this->id,
+            'groupId' => $this->groupId,
+            'groupName' => (string) $this->groupName,
+            'name' => (string) $this->name,
+            'description' => $this->description,
+        ], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    }
 }

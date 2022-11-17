@@ -17,6 +17,7 @@ class Customers
 
     /**
      * Register Sub Customer
+     *
      * ```php
      * $customer = $client->customers()->create($customer);
      * // Or
@@ -31,11 +32,10 @@ class Customers
      * ]);
      * ```
      *
-     * @param array $data
+     * @param array|Customer $data
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(array|Customer $data)
+    public function create(array|Customer $data): array
     {
         if ($data instanceof Customer) {
             $data = $data->toArray();
@@ -56,10 +56,11 @@ class Customers
      * $client->customers()->recharge("example@email.com", 300);
      * ```
      *
-     * @param $data
+     * @param string|Customer $customer
+     * @param int $smsCount
      * @return array
      */
-    public function recharge(string|Customer $customer, int $smsCount)
+    public function recharge(string|Customer $customer, int $smsCount): array
     {
         if ($customer instanceof Customer) {
             $customer = $customer->email;
@@ -79,17 +80,18 @@ class Customers
      *
      * To deduct your customer you are required to specify
      * your customer email account which has been registered with the customer
-     * and smscount number of sms you want to deduct from a customer account.
+     * and sms count number of sms you want to deduct from a customer account.
      *
      * Example
      * ```php
      * $client->customers()->deduct("example@email.com", 300);
      * ```
      *
-     * @param array $data
+     * @param string|Customer $customer
+     * @param int $smsCount
      * @return array
      */
-    public function deduct(string|Customer $customer, int $smsCount)
+    public function deduct(string|Customer $customer, int $smsCount): array
     {
         if ($customer instanceof Customer) {
             $customer = $customer->email;
