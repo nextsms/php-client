@@ -6,18 +6,26 @@ namespace Nextsms\Nextsms\ValueObjects;
 
 /**
  * @author Alphs Olomi
+ *
  * @version 2.0
  */
 class Message
 {
     protected ?int $id = null;
-    protected ?string $messageId= null;
+
+    protected ?string $messageId = null;
+
     protected ?string $from = null;
+
     protected null|array|string $to = null;
-    protected ?string $message= null;
-    protected ?\DateTime $date= null;
-    protected ?\Datetime $time= null;
-    protected ?Status $status= null;
+
+    protected ?string $message = null;
+
+    protected ?\DateTime $date = null;
+
+    protected ?\Datetime $time = null;
+
+    protected ?Status $status = null;
 
     public function __construct()
     {
@@ -28,6 +36,7 @@ class Message
         if (is_string($text)) {
             $message = new self();
             $message->message = $text;
+
             return $message;
         }
 
@@ -36,6 +45,7 @@ class Message
             $message->message = $text['message'] ?? null;
             $message->from = $text['from'] ?? null;
             $message->to = $text['to'] ?? null;
+
             return $message;
         }
 

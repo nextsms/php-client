@@ -1,11 +1,9 @@
 <?php
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-
 use Nextsms\Nextsms\Nextsms;
 use Nextsms\Nextsms\Services\Customers;
 
@@ -13,7 +11,7 @@ beforeEach(function () {
     /** @var MockHandler */
     $this->mock = new MockHandler([]);
 
-    /** @var  HandlerStack */
+    /** @var HandlerStack */
     $this->handlerStack = HandlerStack::create($this->mock);
 
     /** @var Client */
@@ -23,7 +21,7 @@ beforeEach(function () {
     $this->nextsms = new Nextsms([
         'username' => 'city', // Fixture::$username,
         'password' => 'newrise', // Fixture::$password,
-        'senderId' => "NEXTSMS"
+        'senderId' => 'NEXTSMS',
     ], $httpClient);
 });
 
@@ -37,16 +35,16 @@ it('registerSubCustomer', function () {
     $this->mock->reset();
     $this->mock->append(new Response(200, [], json_encode(
         [
-            "success" => true,
-            "status" => 200,
-            "message" => "Customer created successfully. Email is sent to your customer email address for confirmation.",
-            "result" => [
-                "name" => "Api Customer",
-                "username" => "apicust",
-                "phone_number" => "+255738234339",
-                "email" => "apicust@customer.com",
-                "account_type" => "Sub Customer (Reseller)",
-                "sms_price" => "20.00 TSH",
+            'success' => true,
+            'status' => 200,
+            'message' => 'Customer created successfully. Email is sent to your customer email address for confirmation.',
+            'result' => [
+                'name' => 'Api Customer',
+                'username' => 'apicust',
+                'phone_number' => '+255738234339',
+                'email' => 'apicust@customer.com',
+                'account_type' => 'Sub Customer (Reseller)',
+                'sms_price' => '20.00 TSH',
             ],
         ]
     )));
@@ -72,13 +70,13 @@ it('rechargeCustomer', function () {
     $this->mock->reset();
     $this->mock->append(new Response(200, [], json_encode(
         [
-            "success" => true,
-            "status" => 200,
-            "message" => "Transaction completed successfully",
-            "result" => [
-                "Customer" => "example@email.com",
-                "Sms transferred" => 5000,
-                "Your sms balance" => 450000,
+            'success' => true,
+            'status' => 200,
+            'message' => 'Transaction completed successfully',
+            'result' => [
+                'Customer' => 'example@email.com',
+                'Sms transferred' => 5000,
+                'Your sms balance' => 450000,
             ],
         ]
     )));
@@ -98,14 +96,14 @@ it('deductCustomer', function () {
     $this->mock->reset();
     $this->mock->append(new Response(200, [], json_encode(
         [
-            "success" => true,
-            "status" => 200,
-            "message" => "Transaction completed successfully",
-            "result" => [
-                "Customer" => "example@email.com",
-                "Sms deducted" => 2000,
-                "Your sms balance" => 470000,
-                "Customer sms balance" => 3000,
+            'success' => true,
+            'status' => 200,
+            'message' => 'Transaction completed successfully',
+            'result' => [
+                'Customer' => 'example@email.com',
+                'Sms deducted' => 2000,
+                'Your sms balance' => 470000,
+                'Customer sms balance' => 3000,
             ],
         ]
     )));

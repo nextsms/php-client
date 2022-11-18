@@ -6,10 +6,10 @@ namespace Nextsms\Nextsms\Enums;
 
 enum GroupName: string
 {
-    case PENDING_WAITING_DELIVERY = "PENDING_WAITING_DELIVERY";
-    case PENDING_ENROUTE = "PENDING_ENROUTE";
-    case PENDING_ACCEPTED = "PENDING_ACCEPTED";
-    case PENDING = "PENDING";
+    case PENDING_WAITING_DELIVERY = 'PENDING_WAITING_DELIVERY';
+    case PENDING_ENROUTE = 'PENDING_ENROUTE';
+    case PENDING_ACCEPTED = 'PENDING_ACCEPTED';
+    case PENDING = 'PENDING';
 
     public function code(): int
     {

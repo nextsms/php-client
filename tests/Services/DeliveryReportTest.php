@@ -4,7 +4,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-
 use Nextsms\Nextsms\Nextsms;
 use Nextsms\Nextsms\Services\DeliveryReport;
 
@@ -12,7 +11,7 @@ beforeEach(function () {
     /** @var MockHandler */
     $this->mock = new MockHandler([]);
 
-    /** @var  HandlerStack */
+    /** @var HandlerStack */
     $this->handlerStack = HandlerStack::create($this->mock);
 
     /** @var Client */
@@ -22,7 +21,7 @@ beforeEach(function () {
     $this->nextsms = new Nextsms([
         'username' => 'city', // Fixture::$username,
         'password' => 'newrise', // Fixture::$password,
-        'senderId' => "NEXTSMS"
+        'senderId' => 'NEXTSMS',
     ], $httpClient);
 });
 

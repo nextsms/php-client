@@ -32,7 +32,7 @@ class Customers
      * ]);
      * ```
      *
-     * @param array|Customer $data
+     * @param  array|Customer  $data
      * @return array
      */
     public function create(array|Customer $data): array
@@ -41,12 +41,12 @@ class Customers
             $data = $data->toArray();
         }
         $response = $this->httpClient->request(
-            "POST",
-            "sms/v1/sub_customer/create",
+            'POST',
+            'sms/v1/sub_customer/create',
             ['json' => $data]
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -56,8 +56,8 @@ class Customers
      * $client->customers()->recharge("example@email.com", 300);
      * ```
      *
-     * @param string|Customer $customer
-     * @param int $smsCount
+     * @param  string|Customer  $customer
+     * @param  int  $smsCount
      * @return array
      */
     public function recharge(string|Customer $customer, int $smsCount): array
@@ -67,12 +67,12 @@ class Customers
         }
 
         $response = $this->httpClient->request(
-            "POST",
-            "sms/v1/sub_customer/recharge",
-            ["json" => ['email' => $customer,'smscount' => $smsCount]]
+            'POST',
+            'sms/v1/sub_customer/recharge',
+            ['json' => ['email' => $customer, 'smscount' => $smsCount]]
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -87,8 +87,8 @@ class Customers
      * $client->customers()->deduct("example@email.com", 300);
      * ```
      *
-     * @param string|Customer $customer
-     * @param int $smsCount
+     * @param  string|Customer  $customer
+     * @param  int  $smsCount
      * @return array
      */
     public function deduct(string|Customer $customer, int $smsCount): array
@@ -97,14 +97,14 @@ class Customers
             $customer = $customer->email;
         }
         $response = $this->httpClient->request(
-            "POST",
-            "sms/v1/sub_customer/deduct",
-            ["json" => [
+            'POST',
+            'sms/v1/sub_customer/deduct',
+            ['json' => [
                 'email' => $customer,
                 'smscount' => $smsCount,
             ]]
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 }

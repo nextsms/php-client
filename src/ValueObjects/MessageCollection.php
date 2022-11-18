@@ -4,9 +4,11 @@ namespace Nextsms\Nextsms\ValueObjects;
 
 /**
  * Class MessageCollection
- * @package Nextsms\Nextsms\ValueObjects
+ *
  * @property Message[] $messages
+ *
  * @author Alphs Olomi
+ *
  * @version 2.0
  */
 class MessageCollection
@@ -18,7 +20,8 @@ class MessageCollection
 
     /**
      * MessageCollection constructor.
-     * @param array $messages
+     *
+     * @param  array  $messages
      */
     public function __construct(array $messages = [])
     {

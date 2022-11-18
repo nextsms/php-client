@@ -5,7 +5,9 @@ namespace Nextsms\Nextsms\Tests;
 class Fixture
 {
     public static string $username = 'aladdin';
+
     public static string $password = 'opensesame123';
+
     public static string $env = 'testing';
 
     public static array $singleDestination = [
@@ -17,11 +19,10 @@ class Fixture
 
     public static array $multipleDestinations =
     [
-        "from" => "NEXTSMS",
-        "to" => ['255655912841', '255716718040'],
-        "text" => "Your message",
+        'from' => 'NEXTSMS',
+        'to' => ['255655912841', '255716718040'],
+        'text' => 'Your message',
     ];
-
 
     public static array $multipleMessagesToMultipleDestinations =
     [
@@ -30,6 +31,7 @@ class Fixture
             ['from' => 'NEXTSMS', 'to' => '255655912841', 'text' => 'Your other message'],
         ],
     ];
+
     public static array $multipleMessagesToMultipleDifferentDestinations = [
         'messages' => [
             [
@@ -54,14 +56,12 @@ class Fixture
         'time' => '12:00',
     ];
 
-
     public static array $getAllSentSmsLogs =
     [
         'from' => '2020-02-01',
         'limit' => '10',
         'offset' => '10',
     ];
-
 
     public static array $getAllSentSms = [
         'from' => 'NEXTSMS',

@@ -4,18 +4,24 @@ namespace Nextsms\Nextsms\ValueObjects;
 
 /**
  * @author Alphs Olomi
+ *
  * @version 2.0
  */
 class Customer
 {
     public ?string $firstName = null;
-    public ?string $lastName = null;
-    public ?string $username = null;
-    public ?string $email = null;
-    public ?string $phoneNumber = null;
-    public ?string $accountType = null;
-    public ?string $smsPrice = null;
 
+    public ?string $lastName = null;
+
+    public ?string $username = null;
+
+    public ?string $email = null;
+
+    public ?string $phoneNumber = null;
+
+    public ?string $accountType = null;
+
+    public ?string $smsPrice = null;
 
     public function __construct()
     {

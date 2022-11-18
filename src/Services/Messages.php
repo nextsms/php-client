@@ -9,6 +9,7 @@ use Nextsms\Nextsms\ValueObjects\Message;
 class Messages
 {
     protected $httpClient;
+
     private $options;
 
     public function __construct($httpClient, $options)
@@ -18,7 +19,6 @@ class Messages
     }
 
     /**
-     *
      * Send SMS to Single destination/recipient
      * Example
      * ```php
@@ -29,14 +29,14 @@ class Messages
      * ]);
      * ```
      *
-     * @param array|Message $data
+     * @param  array|Message  $data
      * @return array
      */
     public function send(array|Message $data): array
     {
         if (is_array($data)) {
             foreach (['to', 'text'] as $key) {
-                if (!array_key_exists($key, $data)) {
+                if (! array_key_exists($key, $data)) {
                     throw new \InvalidArgumentException("{$key} is required.");
                 }
             }
@@ -45,17 +45,16 @@ class Messages
             $data = $data->toArray();
         }
 
-        $url = "sms/v1/text/single";
+        $url = 'sms/v1/text/single';
         if ($this->options['environment'] == 'testing') {
-            $url = "sms/v1/test/text/single";
+            $url = 'sms/v1/test/text/single';
         }
-        $response = $this->httpClient->request("POST", $url, ['json' => $data]);
+        $response = $this->httpClient->request('POST', $url, ['json' => $data]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     *
      *  Multiple destinations
      *  For sending the single messages to multiple phone numbers,
      *
@@ -74,35 +73,32 @@ class Messages
                 // if (! array_key_exists('from', $data) && array_key_exists('from', $this->options) ) {
                 //     throw new \InvalidArgumentException("From field is required.");
                 // }
-                if (!array_key_exists('text', $message)) {
-                    throw new \InvalidArgumentException("Message text is required.");
+                if (! array_key_exists('text', $message)) {
+                    throw new \InvalidArgumentException('Message text is required.');
                 }
                 // if (! array_key_exists('to', $data)) {
                 //     throw new \InvalidArgumentException("Recipient Numbers are required.");
                 // }
             }
         } else {
-            if (!array_key_exists('to', $data)) {
-                throw new \InvalidArgumentException("Recipient Numbers are required.");
+            if (! array_key_exists('to', $data)) {
+                throw new \InvalidArgumentException('Recipient Numbers are required.');
             }
         }
 
-
-
-        $url = "sms/v1/text/multi";
+        $url = 'sms/v1/text/multi';
         if ($this->options['environment'] == 'testing') {
-            $url = "sms/v1/test/text/multi";
+            $url = 'sms/v1/test/text/multi';
         }
 
-        $response = $this->httpClient->request("POST", $url, [
+        $response = $this->httpClient->request('POST', $url, [
             'json' => $data,
         ]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     *
      *   Multiple messages to Multiple different destinations (Format 1)
      * ```php
      * send([
@@ -113,25 +109,26 @@ class Messages
      * ]);
      * ```
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#b13825ab-8b49-45f5-a4cd-fb7d21aa975a }
+     *
+     * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#b13825ab-8b49-45f5-a4cd-fb7d21aa975a}
      */
     public function multipleMessagesToMultipleDestinations(array $data)
     {
-        if (!array_key_exists('messages', $data)) {
-            throw new \InvalidArgumentException("Messages are required.");
+        if (! array_key_exists('messages', $data)) {
+            throw new \InvalidArgumentException('Messages are required.');
         }
-        $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
+        $response = $this->httpClient->request('POST', 'sms/v1/text/multi', [
             'json' => $data,
         ]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     *
      * Multiple messages to Multiple destinations (Format 2)
      * For sending the multiple messages to multiple phone numbers,
      * ```php
@@ -153,35 +150,37 @@ class Messages
      *
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6916415a-4645-460d-bb3f-a6d6fbd60e4a}
-     * @param array $data
+     *
+     * @param  array  $data
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function multipleMessagesToMultipleDifferentDestinations(array $data)
     {
-        if (!array_key_exists('messages', $data)) {
-            throw new \InvalidArgumentException("Messages are required.");
+        if (! array_key_exists('messages', $data)) {
+            throw new \InvalidArgumentException('Messages are required.');
         }
         if (count($data['messages']) < 0) {
-            throw new \InvalidArgumentException("Invalid Messages. Expected atleast one message");
+            throw new \InvalidArgumentException('Invalid Messages. Expected atleast one message');
         }
         foreach ($data['messages'] as $key => $message) {
-            if (!array_key_exists('from', $message)) {
-                throw new \InvalidArgumentException("From field is required. On message #" . $key);
+            if (! array_key_exists('from', $message)) {
+                throw new \InvalidArgumentException('From field is required. On message #'.$key);
             }
-            if (!array_key_exists('text', $message)) {
-                throw new \InvalidArgumentException("Message text is required. On message #" . $key);
+            if (! array_key_exists('text', $message)) {
+                throw new \InvalidArgumentException('Message text is required. On message #'.$key);
             }
-            if (!array_key_exists('to', $message)) {
-                throw new \InvalidArgumentException("Recipient Numbers are required. On message #" . $key);
+            if (! array_key_exists('to', $message)) {
+                throw new \InvalidArgumentException('Recipient Numbers are required. On message #'.$key);
             }
         }
 
-        $response = $this->httpClient->request("POST", "sms/v1/text/multi", [
+        $response = $this->httpClient->request('POST', 'sms/v1/text/multi', [
             'json' => $data,
         ]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -212,10 +211,12 @@ class Messages
      *     "text" =>  "Your message",
      * ], \DateTime::createFromFormat('Y-m-d H:i', '2020-10-01 12:00'));
      * ```
+     *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#59cc2941-482b-45ab-9721-a7abffc83bba}
      *
-     * @param array $data
+     * @param  array  $data
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function sendLater(array|Message $data, string|\DateTime $date)
@@ -225,24 +226,24 @@ class Messages
         }
 
         foreach (['to', 'text'] as $key) {
-            if (!array_key_exists($key, $data)) {
+            if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
         }
 
         $response = $this->httpClient->request(
-            "POST",
-            "sms/v1/text/single",
-            ["json" => [
-                "from" => $data['from'],
-                "to" => $data['to'],
-                "text" => $data['text'],
-                "date" => $date instanceof \DateTime ? $date->format('Y-m-d') : $date,
-                "time" => $date instanceof \DateTime ? $date->format('H:i') : $date,
+            'POST',
+            'sms/v1/text/single',
+            ['json' => [
+                'from' => $data['from'],
+                'to' => $data['to'],
+                'text' => $data['text'],
+                'date' => $date instanceof \DateTime ? $date->format('Y-m-d') : $date,
+                'time' => $date instanceof \DateTime ? $date->format('H:i') : $date,
             ]]
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -256,7 +257,7 @@ class Messages
      * );
      * ```
      *
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     public function getSent(
@@ -266,7 +267,7 @@ class Messages
     ) {
         // todo: implement this
         foreach (['from', 'to'] as $key) {
-            if (!array_key_exists($key, $data)) {
+            if (! array_key_exists($key, $data)) {
                 throw new \InvalidArgumentException("{$key} is required.");
             }
         }
@@ -275,7 +276,7 @@ class Messages
             "sms/v1/logs?from={$data['from']}&to={$data['to']}&sentSince={$data['sentSince']}&sentUntil={$data['sentUntil']}"
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -287,8 +288,8 @@ class Messages
      */
     public function balance()
     {
-        $response = $this->httpClient->request("GET", "sms/v1/balance");
+        $response = $this->httpClient->request('GET', 'sms/v1/balance');
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 }

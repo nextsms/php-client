@@ -7,11 +7,10 @@ namespace Nextsms\Nextsms;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
-
- * @package Nextsms\Nextsms
  * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#intro}
  *
  * @version 1.0.0
+ *
  * @author Alpha Olomi <alphaolomi@gmail.com>
  */
 class Nextsms
@@ -22,24 +21,25 @@ class Nextsms
 
     /**
      * NextSMS constructor.
-     * @param array $options
-     * @param GuzzleClient|null $httpClient
+     *
+     * @param  array  $options
+     * @param  GuzzleClient|null  $httpClient
      */
     public function __construct(array $options = [], ?GuzzleClient $httpClient = null)
     {
         foreach (['username', 'password', 'senderId'] as $requiredOption) {
-            if (!isset($options[$requiredOption])) {
+            if (! isset($options[$requiredOption])) {
                 throw new \InvalidArgumentException(sprintf('The "%s" option must be set.', $requiredOption));
             }
         }
 
-        if (!array_key_exists('environment', $options)) {
+        if (! array_key_exists('environment', $options)) {
             $options['environment'] = 'testing';
         }
 
         $this->options = $options;
 
-        $this->httpClient = ($httpClient instanceof GuzzleClient) ? $httpClient :  new GuzzleClient([
+        $this->httpClient = ($httpClient instanceof GuzzleClient) ? $httpClient : new GuzzleClient([
             'base_uri' => 'https://messaging-service.co.tz/api/',
             'auth' => [$options['username'], $options['password']],
             'headers' => [

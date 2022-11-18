@@ -9,7 +9,9 @@ use Nextsms\Nextsms\ValueObjects\Message;
 class DeliveryReport
 {
     protected $httpClient;
+
     private $sentSince;
+
     private $sentUntil;
 
     public function __construct($httpClient)
@@ -22,24 +24,25 @@ class DeliveryReport
      * ```php
      * $reports = $client->reports()->all();
      * ```
+     *
      * @return array
      */
     public function all(): array
     {
-        $response = $this->httpClient->request("GET", "sms/v1/reports");
+        $response = $this->httpClient->request('GET', 'sms/v1/reports');
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
      * Get delivery reports with messageId
-    * ```php
+     * ```php
      * $reports = $client->reports()->find('123123');
      * // Or
      * $reports = $client->reports()->find($messageId);
      * ```
      *
-     * @param int|string|Message $messageId
+     * @param  int|string|Message  $messageId
      * @return array
      */
     public function find(int|string|Message $messageId): array
@@ -49,12 +52,12 @@ class DeliveryReport
         }
 
         if ($messageId < 0) {
-            throw new \InvalidArgumentException("Invalid Message ID. Message ID can not be negative.");
+            throw new \InvalidArgumentException('Invalid Message ID. Message ID can not be negative.');
         }
 
-        $response = $this->httpClient->request("GET", "sms/v1/reports?messageId={$messageId}");
+        $response = $this->httpClient->request('GET', "sms/v1/reports?messageId={$messageId}");
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     public function sendSince(string|\Datetime $date): static
@@ -89,6 +92,7 @@ class DeliveryReport
      *   ->sentUntil(date: \DateTime::create('now'))
      *   ->get();
      * ```
+     *
      * @return array
      */
     public function get(): array
@@ -97,7 +101,7 @@ class DeliveryReport
             "sms/v1/reports?sentSince{$this->sentSince}=&sentUntil={$this->sentUntil}"
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -106,9 +110,10 @@ class DeliveryReport
      * ```php
      * $client->reports()->logs(from :"2020-02-01");
      * ```
-     * @param string $from
-     * @param int $limit
-     * @param int $offset
+     *
+     * @param  string  $from
+     * @param  int  $limit
+     * @param  int  $offset
      * @return array
      */
     public function logs(string $from, int $limit = 10, int $offset = 10): array
@@ -117,6 +122,6 @@ class DeliveryReport
             "sms/v1/logs?from={$from}&limit={$limit}&offset={$offset}"
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 }
