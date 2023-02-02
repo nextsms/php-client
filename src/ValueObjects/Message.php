@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Nextsms\Nextsms\ValueObjects;
 
 /**
- * @author Alphs Olomi
+ * @author Alpha Olomi
  *
  * @version 2.0
  */

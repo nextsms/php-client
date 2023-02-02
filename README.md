@@ -1,9 +1,6 @@
 # Nextsms for PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
-[![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
-[![Check & fix styling](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client) [![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml) [![Total Downloads](https://img.shields.io/packagist/dt/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client) [![Check & fix styling](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml)
 
 The `Nextsms for PHP` makes it easy for developers to access Nextsms services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
 
@@ -44,7 +41,7 @@ $message = Message::create(text: 'Hello World',to: '2557123456789');
 $helloMessage = $client->messages()->send($message);
 
 // Send Later
-$messageSchduled = $client->messages()->sendLater(
+$messageScheduled = $client->messages()->sendLater(
     new Message(to: '2557123456789', text: 'Hello World'), 
     \DateTime::createFromFormat('Y-m-d', '2020-12-31')
 );
@@ -73,7 +70,7 @@ $reports = $client->reports()
     // Using date string
     ->sentFrom(date: '01-01-2022')
     // Or using date object
-    ->sentUntill(date: \DateTime::create('now'))
+    ->sentUntil(date: \DateTime::create('now'))
     ->get();
 
 $report = $client->reports()->get($messageId);
@@ -83,7 +80,7 @@ $report = $client->reports()->get($messageId);
 $customer = Customer::create([
     "first_name" => "Api",
     "last_name" => "Customer",
-    "username" => "apicust",
+    "username" => "api_customer",
     "email" => "apicust@customer.com",
     "phone_number" => "0738234339",
     "account_type" => "Sub Customer (Reseller)", 
@@ -102,7 +99,7 @@ $deduct = $client->customers()->deduct($customer, 1100);
 
 ## Testing
 
-Using [Pest](http://pestphp.com).
+Using [Pest framework](http://pestphp.com).
 
 ```bash
 composer test

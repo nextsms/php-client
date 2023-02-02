@@ -5,7 +5,7 @@ namespace Nextsms\Nextsms\ValueObjects;
 use Nextsms\Nextsms\Enums;
 
 /**
- * @author Alphs Olomi
+ * @author Alpha Olomi
  *
  * @version 2.0
  */

@@ -7,7 +7,7 @@ namespace Nextsms\Nextsms\ValueObjects;
  *
  * @property Message[] $messages
  *
- * @author Alphs Olomi
+ * @author Alpha Olomi
  *
  * @version 2.0
  */

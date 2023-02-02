@@ -15,7 +15,7 @@ it('can instantiate MessageCollection', function () {
     $mc = new MessageCollection;
 
     // Act
-    $msg = Message::make(['message' => 'Hello ther', 'to' => '0747991498']);
+    $msg = Message::make(['message' => 'Habari Dunia', 'to' => '0747991498']);
     $mc->add($msg);
     // Assert
     expect($mc->getMessages())->toBeArray();
