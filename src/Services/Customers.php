@@ -31,9 +31,6 @@ class Customers
      *     "sms_price" => "20",
      * ]);
      * ```
-     *
-     * @param  array|Customer  $data
-     * @return array
      */
     public function create(array|Customer $data): array
     {
@@ -55,10 +52,6 @@ class Customers
      * ```php
      * $client->customers()->recharge("example@email.com", 300);
      * ```
-     *
-     * @param  string|Customer  $customer
-     * @param  int  $smsCount
-     * @return array
      */
     public function recharge(string|Customer $customer, int $smsCount): array
     {
@@ -86,10 +79,6 @@ class Customers
      * ```php
      * $client->customers()->deduct("example@email.com", 300);
      * ```
-     *
-     * @param  string|Customer  $customer
-     * @param  int  $smsCount
-     * @return array
      */
     public function deduct(string|Customer $customer, int $smsCount): array
     {

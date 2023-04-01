@@ -24,8 +24,6 @@ class DeliveryReport
      * ```php
      * $reports = $client->reports()->all();
      * ```
-     *
-     * @return array
      */
     public function all(): array
     {
@@ -41,9 +39,6 @@ class DeliveryReport
      * // Or
      * $reports = $client->reports()->find($messageId);
      * ```
-     *
-     * @param  int|string|Message  $messageId
-     * @return array
      */
     public function find(int|string|Message $messageId): array
     {
@@ -92,8 +87,6 @@ class DeliveryReport
      *   ->sentUntil(date: \DateTime::create('now'))
      *   ->get();
      * ```
-     *
-     * @return array
      */
     public function get(): array
     {
@@ -110,11 +103,6 @@ class DeliveryReport
      * ```php
      * $client->reports()->logs(from :"2020-02-01");
      * ```
-     *
-     * @param  string  $from
-     * @param  int  $limit
-     * @param  int  $offset
-     * @return array
      */
     public function logs(string $from, int $limit = 10, int $offset = 10): array
     {

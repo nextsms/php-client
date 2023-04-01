@@ -20,8 +20,6 @@ class MessageCollection
 
     /**
      * MessageCollection constructor.
-     *
-     * @param  array  $messages
      */
     public function __construct(array $messages = [])
     {

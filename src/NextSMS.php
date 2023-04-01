@@ -21,9 +21,6 @@ class Nextsms
 
     /**
      * NextSMS constructor.
-     *
-     * @param  array  $options
-     * @param  GuzzleClient|null  $httpClient
      */
     public function __construct(array $options = [], ?GuzzleClient $httpClient = null)
     {

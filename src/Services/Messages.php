@@ -28,9 +28,6 @@ class Messages
      *  'text' => 'Your message'
      * ]);
      * ```
-     *
-     * @param  array|Message  $data
-     * @return array
      */
     public function send(array|Message $data): array
     {
@@ -109,7 +106,6 @@ class Messages
      * ]);
      * ```
      *
-     * @param  array  $data
      * @return mixed
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -151,7 +147,6 @@ class Messages
      *
      * @see {@link https://documenter.getpostman.com/view/4680389/SW7dX7JL#6916415a-4645-460d-bb3f-a6d6fbd60e4a}
      *
-     * @param  array  $data
      * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -257,7 +252,6 @@ class Messages
      * );
      * ```
      *
-     * @param  array  $data
      * @return array
      */
     public function getSent(
