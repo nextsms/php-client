@@ -256,8 +256,8 @@ class Messages
      */
     public function getSent(
         array $data,
-        string|\DateTime $sentSince = null,
-        string|\DateTime $sentUntill = null,
+        string|\DateTime|null $sentSince = null,
+        string|\DateTime|null $sentUntill = null,
     ) {
         // todo: implement this
         foreach (['from', 'to'] as $key) {
