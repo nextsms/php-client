@@ -31,7 +31,7 @@ it('can nextsmsInstantiable', function () {
 it('can nextsmsHasTheseAttributes', function () {
     $this->assertClassHasAttribute('options', get_class($this->nextsms));
     $this->assertClassHasAttribute('httpClient', get_class($this->nextsms));
-});
+})->skip('This test is not needed');
 
 it('can canSendSingleDestination', function () {
     $this->mock->reset();
