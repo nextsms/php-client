@@ -27,9 +27,7 @@ class Message
 
     protected ?Status $status = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public static function make(string|array $text): self
     {

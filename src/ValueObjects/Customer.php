@@ -23,9 +23,7 @@ class Customer
 
     public ?string $smsPrice = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public static function make(array $data): Customer
     {
