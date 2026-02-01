@@ -1,17 +1,13 @@
 # Nextsms for PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client) [![Tests](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml) [![Total Downloads](https://img.shields.io/packagist/dt/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client) [![Check & fix styling](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/nextsms/php-client/actions/workflows/php-cs-fixer.yml)
-
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
+[![Tests](https://img.shields.io/github/actions/workflow/status/nextsms/php-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/nextsms/php-client/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/nextsms/php-client.svg?style=flat-square)](https://packagist.org/packages/nextsms/php-client)
 The `Nextsms for PHP` makes it easy for developers to access Nextsms services in their PHP code, and build robust applications and software using services like Bulk SMS delivery, Sub customers, and more.
-
-> **V2:** You are currently viewing the documentation for the NextSMS PHP SDK V2. If you are looking for the documentation for the V1 SDK, you can find it [here](#).
-
 
 ## Installation
 
-> **Requirement:** PHP 8.0 or higher is required.
-
-You can install the package via Composer:
+You can install the package via composer:
 
 ```bash
 composer require nextsms/php-client
@@ -95,6 +91,7 @@ $recharge = $client->customers()->recharge($customer, 1000);
 
 // Deduct
 $deduct = $client->customers()->deduct($customer, 1100);
+
 ```
 
 ## Testing

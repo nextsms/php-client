@@ -21,9 +21,7 @@ class Status
 
     protected ?string $description;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public static function make(array $data): self
     {
